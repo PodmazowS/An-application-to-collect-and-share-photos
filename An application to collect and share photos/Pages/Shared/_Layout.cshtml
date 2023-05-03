@@ -4,44 +4,49 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - An_application_to_collect_and_share_photos</title>
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/An_application_to_collect_and_share_photos.styles.css" asp-append-version="true" />
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Chivo+Mono&display=swap" rel="stylesheet">
 </head>
+
 <body>
-    <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container">
-                <a class="navbar-brand" asp-area="" asp-page="/Index">An_application_to_collect_and_share_photos</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-page="/Index">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-page="/Privacy">Privacy</a>
-                        </li>
-                    </ul>
-                </div>
+    <menu>
+        <a asp-page="/Index"><img class="logo" src="~/images/logo.png" /></a>
+		
+        <a asp-page="/Index">
+            <div class=menuitem>
+                <div class="material-icons-outlined">home</div><div class="iconsnames">Home</div>
             </div>
-        </nav>
-    </header>
+        </a>
+        <a asp-page="/Login">
+            <div class=menuitem>
+                <div class="material-icons-outlined">login</div><div class="iconsnames">Log in</div>
+            </div>
+        </a>
+        <a asp-page="/Index">
+            <div class=menuitem>
+                <div class="material-icons-outlined">add</div><div class="iconsnames">Add</div>
+            </div>
+        </a>
+    </menu>
     <div class="container">
-        <main role="main" class="pb-3">
+        <main>
             @RenderBody()
         </main>
+
+        <footer>
+            <div class="nav">
+                <input type="text" placeholder="Search post or user...">
+                <button type="submit">Go</button>
+            </div>
+            <p class="about">
+                &copy; 2023 <a asp-area="" asp-page="/Privacy">Privacy</a>
+            <p>
+        </footer>
     </div>
-
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2023 - An_application_to_collect_and_share_photos - <a asp-area="" asp-page="/Privacy">Privacy</a>
-        </div>
-    </footer>
-
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
