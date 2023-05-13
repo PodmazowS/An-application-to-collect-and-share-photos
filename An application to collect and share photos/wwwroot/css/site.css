@@ -4,7 +4,6 @@
     height: 100%;
     padding: 0;
     margin: 0;
-    border-top: solid gray 1px;
 }
 
 menu {
@@ -18,6 +17,7 @@ menu {
     height: 100vh;
     border-right: solid gray 1px;
     text-align: center;
+    top:0;
 }
 .menuitem:hover {
     border-radius: 10px;

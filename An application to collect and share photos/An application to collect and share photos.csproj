@@ -10,13 +10,11 @@
   <ItemGroup>
     <Compile Remove="Pages\Index - Copy %282%29.cshtml.cs" />
     <Compile Remove="Pages\Index - Copy.cshtml.cs" />
-    <Compile Remove="Pages\Index1.cshtml.cs" />
   </ItemGroup>
 
   <ItemGroup>
     <Content Remove="Pages\Index - Copy %282%29.cshtml" />
     <Content Remove="Pages\Index - Copy.cshtml" />
-    <Content Remove="Pages\Index1.cshtml" />
   </ItemGroup>
 
   <ItemGroup>
