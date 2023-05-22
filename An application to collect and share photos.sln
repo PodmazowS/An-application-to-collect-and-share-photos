@@ -5,7 +5,11 @@ VisualStudioVersion = 17.4.33015.44
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Web", "An application to collect and share photos\Web.csproj", "{8BC7E9AC-8530-47B7-8277-54E7CACD6C45}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Domain", "Domain\Domain.csproj", "{D993F3C2-5CF9-4186-BDFC-334C48156AB0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Domain", "Domain\Domain.csproj", "{D993F3C2-5CF9-4186-BDFC-334C48156AB0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infrastructure", "Infrastructure\Infrastructure.csproj", "{48700573-0FFE-45CA-9E9C-60EF27BB1587}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ApplicationLayer", "ApplicationLayer\ApplicationLayer.csproj", "{AE254169-6260-40CF-A750-A9F0B6446B54}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +25,14 @@ Global
 		{D993F3C2-5CF9-4186-BDFC-334C48156AB0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D993F3C2-5CF9-4186-BDFC-334C48156AB0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D993F3C2-5CF9-4186-BDFC-334C48156AB0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{48700573-0FFE-45CA-9E9C-60EF27BB1587}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{48700573-0FFE-45CA-9E9C-60EF27BB1587}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{48700573-0FFE-45CA-9E9C-60EF27BB1587}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{48700573-0FFE-45CA-9E9C-60EF27BB1587}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AE254169-6260-40CF-A750-A9F0B6446B54}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AE254169-6260-40CF-A750-A9F0B6446B54}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AE254169-6260-40CF-A750-A9F0B6446B54}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AE254169-6260-40CF-A750-A9F0B6446B54}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -22,4 +22,9 @@
     <None Remove="Pages\Login.css" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Controllers\" />
+    <Folder Include="ViewModels\" />
+  </ItemGroup>
+
 </Project>

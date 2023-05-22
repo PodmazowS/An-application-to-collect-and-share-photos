@@ -6,4 +6,10 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Folder Include="AppServices\" />
+    <Folder Include="DTO\" />
+    <Folder Include="UseCases\" />
+  </ItemGroup>
+
 </Project>
