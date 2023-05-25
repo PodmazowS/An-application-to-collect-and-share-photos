@@ -16,6 +16,7 @@ namespace Domain.Repositories
         //GetAll
         //GetById
         //Update?
+
         //Delete
         public int DeleteLikeFromPost(Like like, ObjectId id);
     }
