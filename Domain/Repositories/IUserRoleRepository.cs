@@ -12,8 +12,8 @@ namespace Domain.Repositories
     {
         UserRole GetUserRoleById(ObjectId userRoleId);
         UserRole GetUserRoleByName(string roleName);
-        void CreateUserRole(UserRole userRole);
-        void UpdateUserRole(UserRole userRole);
-        void DeleteUserRole(ObjectId userRoleId);
+        Task CreateUserRole(UserRole userRole);
+        Task UpdateUserRole(UserRole userRole);
+        Task DeleteUserRole(ObjectId userRoleId);
     }
 }
