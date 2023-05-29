@@ -37,7 +37,7 @@ namespace Infrastructure
             app.UseAuthorization();
 
 
-            var dbContext = app.Services.GetRequiredService<MongoDBContext>();
+ /*           var dbContext = app.Services.GetRequiredService<MongoDBContext>();
 
             var photo = new Photo
             {
@@ -55,7 +55,7 @@ namespace Infrastructure
             dbContext.Photos.InsertOne(photo);
 
             Console.WriteLine("Photo added to collection.");
-
+ */
 
             app.Run();
         }

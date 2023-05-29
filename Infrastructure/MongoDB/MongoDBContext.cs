@@ -2,26 +2,31 @@
 using MongoDB.Bson;
 using MongoDB;
 using MongoDB.Driver;
+using Infrastructure.MongoDB;
+using Microsoft.Extensions.Options;
 
 public class MongoDBContext
 {
-    private readonly IMongoDatabase _database;
-
-    public MongoDBContext(string connectionString, string databaseName)
+    private readonly IMongoCollection<User> _users;
+    private readonly IMongoCollection<UserRole> _userroles;
+    private readonly IMongoCollection<Photo> _photos;
+    private readonly IMongoCollection<Album> _albums;
+    private readonly IMongoCollection<Like> _likes;
+    private readonly IMongoCollection<Comment> _comments;
+    private readonly MongoClient _client;
+    public MongoDBContext(IOptions<MongoDBSettings> settings)
     {
-        var client = new MongoClient(connectionString);
-        _database = client.GetDatabase(databaseName);
+        _client = new MongoClient(settings.Value.ConnectionUri);
+        IMongoDatabase database = _client.GetDatabase(settings.Value.DatabaseName);
+        _users = database.GetCollection<User>(settings.Value.UserCollection);
+        _userroles = database.GetCollection<UserRole>(settings.Value.UserRoleCollection);
+        _photos = database.GetCollection<Photo>(settings.Value.PhotoCollection);
+        _albums = database.GetCollection<Album>(settings.Value.AlbumCollection);
+        _likes = database.GetCollection<Like>(settings.Value.LikeCollection);
+        _comments = database.GetCollection<Comment>(settings.Value.CommentCollection);
     }
+    /* public IMongoCollection<Photo> Photos => _photos; */
 
-    // Додайте власні властивості, які представляють колекції бази даних
-
-    public IMongoCollection<User> Users => _database.GetCollection<User>("users");
-    public IMongoCollection<UserRole> UserRoles => _database.GetCollection<UserRole>("userroles");
-    public IMongoCollection<Photo> Photos => _database.GetCollection<Photo>("photos");
-    public IMongoCollection<Album> Albums => _database.GetCollection<Album>("albums");
-    public IMongoCollection<Like> Likes => _database.GetCollection<Like>("likes");
-    public IMongoCollection<Comment> Comments => _database.GetCollection<Comment>("comments");
-    // Додайте інші колекції, які використовуєте в проекті
 
     // Додайте будь-які інші методи або функціональність, яку потребуєте
 
