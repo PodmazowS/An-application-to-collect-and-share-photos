@@ -1,5 +1,6 @@
 ﻿using Domain.Models;
 using MongoDB.Bson;
+using MongoDB.Bson.Serialization.IdGenerators;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,14 +11,9 @@ namespace Domain.Repositories
 {
     public interface ILikeRepository
     {
-        //Create
-        public int AddLikeToPost(Like like, ObjectId id);
-
-        //GetAll
-        //GetById
-        //Update?
-
-        //Delete
-        public int DeleteLikeFromPost(Like like, ObjectId id);
+        Task<bool> HasUserLikedPhotoAsync(ObjectId userId, ObjectId photoId);
+        Task CreateLikeAsync(Like like);
+        Task DeleteLikeAsync(ObjectId userId, ObjectId photoId);
+        Task<int> GetLikeCountForPhotoAsync(ObjectId photoId);
     }
 }

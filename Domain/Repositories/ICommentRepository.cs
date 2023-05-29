@@ -25,5 +25,8 @@ namespace Domain.Repositories
 
         //Delete
         void Delete(ObjectId id);
+
+        Task CreateCommentAsync(Comment comment);
+        Task DeleteCommentAsync(Comment comment);
     }
 }

@@ -17,7 +17,7 @@ namespace Domain.Models
         [BsonElement("photoid")]
         public ObjectId PhotoId { get; set; }
         [BsonElement("comment")]
-        public string _Comment { get;set; }
+        public string CommentText { get;set; }
         [BsonElement("date")]
         public DateTime Date { get; set; }
 
