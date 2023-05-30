@@ -16,6 +16,16 @@ namespace Infrastructure.Data
             throw new NotImplementedException();
         }
 
+        public Task CreateCommentAsync(Comment comment)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task DeleteCommentAsync(Comment comment)
+        {
+            throw new NotImplementedException();
+        }
+
         public Task<IEnumerable<Comment>> GetAll()
         {
             throw new NotImplementedException();
