@@ -15,5 +15,25 @@ namespace Infrastructure.Data
         {
             throw new NotImplementedException();
         }
+
+        public Task<bool> HasUserLikedPhotoAsync(ObjectId userId, ObjectId photoId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task CreateLikeAsync(Like like)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task DeleteLikeAsync(ObjectId userId, ObjectId photoId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<int> GetLikeCountForPhotoAsync(ObjectId photoId)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
