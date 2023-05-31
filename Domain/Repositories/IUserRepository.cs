@@ -10,10 +10,11 @@ namespace Domain.Repositories
 {
     public interface IUserRepository
     {
-        User GetUserById(ObjectId userId);
-        User GetUserByEmail(string email);
-        void CreateUser(User user);
-        void UpdateUser(User user);
-        void DeleteUser(ObjectId userId);
+        Task<User> GetUserById(ObjectId userId);
+        Task<User> GetUserByEmail(string email);
+        Task<IEnumerable<User>> GetAll();
+        Task CreateUser(User user);
+        Task<User> UpdateUser(ObjectId userId, User user);
+        Task DeleteUser(ObjectId userId);
     }
 }

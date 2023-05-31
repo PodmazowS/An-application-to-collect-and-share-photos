@@ -1,36 +1,60 @@
 ﻿using Domain.Models;
 using Domain.Repositories;
 using MongoDB.Bson;
+using MongoDB.Driver;
 using System.Numerics;
 
 namespace Infrastructure.Data
 {
     public class UserRepository : IUserRepository
-
     {
-        public void CreateUser(User user)
+        private readonly IMongoCollection<User> _userCollection;
+        public UserRepository(IMongoDatabase database)
         {
-            throw new NotImplementedException();
+            _userCollection = database.GetCollection<User>("user");
         }
 
-        public void DeleteUser(ObjectId userId)
+
+        public async Task<IEnumerable<User>> GetAll()
         {
-            throw new NotImplementedException();
+            var user = await _userCollection.Find(_ => true).ToListAsync();
+            return user;
+
         }
 
-        public User GetUserByEmail(string email)
+        public async Task<User> GetUserById(ObjectId userId)
         {
-            throw new NotImplementedException();
+            var filter = Builders<User>.Filter.Eq("_id", userId);
+            var user = await _userCollection.Find(filter).FirstOrDefaultAsync();
+            return user;
         }
 
-        public User GetUserById(ObjectId userId)
+        public async Task<User> GetUserByEmail(string email)
         {
-            throw new NotImplementedException();
+            var filter = Builders<User>.Filter.Eq("_id", email);
+            var user = await _userCollection.Find(filter).FirstOrDefaultAsync();
+            return user;
         }
 
-        public void UpdateUser(User user)
+
+        public async Task CreateUser(User user)
         {
-            throw new NotImplementedException();
+            await _userCollection.InsertOneAsync(user);
+        }
+
+        public async Task DeleteUser(ObjectId userId)
+        {
+            var filter = Builders<User>.Filter.Eq(a => a.Id, userId);
+            await _userCollection.DeleteOneAsync(filter);
+        }
+
+        public async Task<User> UpdateUser(ObjectId userId, User user)
+        {
+            var filter = Builders<User>.Filter.Eq("_id", userId);
+            var options = new ReplaceOptions { IsUpsert = false };
+            await _userCollection.ReplaceOneAsync(filter, user, options);
+
+            return user;
         }
     }
 }

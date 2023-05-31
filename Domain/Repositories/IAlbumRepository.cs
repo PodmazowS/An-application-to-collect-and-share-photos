@@ -10,6 +10,8 @@ namespace Domain.Repositories
 {
     public interface IAlbumRepository
     {
+
+
         //Create
         Task Create(Album album);
 
