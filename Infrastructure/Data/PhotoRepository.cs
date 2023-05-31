@@ -1,5 +1,6 @@
 ﻿using Domain.Models;
 using Domain.Repositories;
+using Domain.Services;
 using MongoDB.Bson;
 using MongoDB.Driver;
 
@@ -7,32 +8,36 @@ namespace Infrastructure.Data
 {
     public class PhotoRepository : IPhotoRepository
     {
+        private readonly IMongoCollection<Photo> _photoCollection;
 
-        public Task CreatePhotoAsync(Photo photo)
+        public PhotoRepository(IMongoDatabase database)
         {
-            throw new NotImplementedException();
+            _photoCollection = database.GetCollection<Photo>("photos");
+        }
+        public async Task CreatePhotoAsync(Photo photo)
+        {
+            await _photoCollection.InsertOneAsync(photo);
+        }
+        public async Task<Photo> GetPhotoByIdAsync(ObjectId photoId)
+        {
+            var filter = Builders<Photo>.Filter.Eq("_photoId", photoId);
+            var photo = await _photoCollection.Find(filter).FirstOrDefaultAsync();
+            return photo;
         }
 
-        public Task DeletePhotoAsync(ObjectId photoId)
+        public async Task<IEnumerable<Photo>> GetPhotosByUserIdAsync(ObjectId userId)
         {
-            throw new NotImplementedException();
+            return await _photoCollection.Find(p => p.UserId == userId).ToListAsync();
         }
 
-        public Task<Photo> GetPhotoByIdAsync(ObjectId photoId)
+        public async Task UpdatePhotoAsync(Photo photo)
         {
-            throw new NotImplementedException();
+            await _photoCollection.ReplaceOneAsync(p => p.Id == photo.Id, photo);
         }
-
-        public Task<IEnumerable<Photo>> GetPhotosByUserIdAsync(ObjectId userId)
+        
+        public async Task DeletePhotoAsync(ObjectId photoId)
         {
-            throw new NotImplementedException();
-        }
-
-        public Task UpdatePhotoAsync(Photo photo)
-        {
-            throw new NotImplementedException();
-        }
-
-
+            await _photoCollection.DeleteOneAsync(p => p.Id == photoId);
+        } 
     }
 }
