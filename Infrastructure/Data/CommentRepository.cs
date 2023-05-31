@@ -1,39 +1,46 @@
 ﻿using Domain.Models;
 using Domain.Repositories;
 using MongoDB.Bson;
+using MongoDB.Driver;
 
 namespace Infrastructure.Data
 {
     public class CommentRepository : ICommentRepository
     {
+        private readonly IMongoCollection<Comment> _commentCollection;
+
+        public CommentRepository(IMongoDatabase database)
+        {
+            _commentCollection = database.GetCollection<Comment>("comments");
+        }
         public void Add(Comment comment)
         {
-            throw new NotImplementedException();
+            _commentCollection.InsertOne(comment);
         }
 
         public void Delete(ObjectId id)
         {
-            throw new NotImplementedException();
+            _commentCollection.DeleteOne(comment => comment.Id == id);
         }
 
-        public Task CreateCommentAsync(Comment comment)
+        public async Task CreateCommentAsync(Comment comment)
         {
-            throw new NotImplementedException();
+            await _commentCollection.InsertOneAsync(comment);
         }
 
-        public Task DeleteCommentAsync(Comment comment)
+        public async Task DeleteCommentAsync(Comment comment)
         {
-            throw new NotImplementedException();
+            await _commentCollection.DeleteOneAsync(c => c.Id == comment.Id);
         }
 
-        public Task<IEnumerable<Comment>> GetAll()
+        public async Task<IEnumerable<Comment>> GetAll()
         {
-            throw new NotImplementedException();
+            var comments = await _commentCollection.Find(_ => true).ToListAsync();
+            return comments;
         }
-
         public Comment GetById(ObjectId id)
         {
-            throw new NotImplementedException();
+            return _commentCollection.Find(comment => comment.Id == id).FirstOrDefault();
         }
     }
 }
