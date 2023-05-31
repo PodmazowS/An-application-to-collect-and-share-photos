@@ -25,7 +25,8 @@ public class MongoDBContext
         _likes = database.GetCollection<Like>(settings.Value.LikeCollection);
         _comments = database.GetCollection<Comment>(settings.Value.CommentCollection);
     }
-    /* public IMongoCollection<Photo> Photos => _photos; */
+    public IMongoCollection<Photo> Photos => _photos;
+    public IMongoCollection<UserRole> UserRoles => _userroles;
 
 
     // Додайте будь-які інші методи або функціональність, яку потребуєте
