@@ -1,0 +1,36 @@
+﻿@page
+
+@model AlbumVM
+
+@{
+    ViewData["Title"] = "Add Album";
+}
+
+
+<head>
+    <link href="~/css/addentity.css" rel="stylesheet" />
+</head>
+<h1>Add Album</h1>
+
+<form method="post">
+    <div class="form-group">
+        <label asp-for="Title">Title</label>
+        <input class="form-control" asp-for="Title" />
+        <span asp-validation-for="Title" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Description">Description</label>
+        <textarea class="form-control" asp-for="Description"></textarea>
+        <span asp-validation-for="Description" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Status">Status</label><br />
+        <label><input type="radio" asp-for="Status" value="Public" /> Public</label>
+        <label><input type="radio" asp-for="Status" value="Private" /> Private</label>
+        <span asp-validation-for="Status" class="text-danger"></span>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Add</button>
+</form>

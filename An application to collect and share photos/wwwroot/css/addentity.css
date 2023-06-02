@@ -1,0 +1,44 @@
+﻿.text {
+    font-family: 'Chivo Mono', monospace;
+    margin-top: 20px;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.control-label {
+    font-weight: bold;
+}
+
+.form-control {
+    width: 100%;
+}
+
+.btn {
+    margin-right: 10px;
+}
+
+    .btn.btn-outline-secondary {
+        margin-top: 10px;
+    }
+
+#PhotoPreview {
+    max-width: 150px;
+    border-radius: 5px;
+    margin-bottom: 10px;
+}
+
+.nav {
+    display: none;
+}
+
+.about {
+    display: none;
+}
+
+@media (max-width: 767px) {
+    .col-md-8.offset-2 {
+        width: 100%;
+    }
+}

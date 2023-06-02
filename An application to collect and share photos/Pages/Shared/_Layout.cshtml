@@ -4,33 +4,41 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - An_application_to_collect_and_share_photos</title>
-    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/An_application_to_collect_and_share_photos.styles.css" asp-append-version="true" />
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Chivo+Mono&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+
 </head>
 
 <body>
     <menu>
         <a asp-page="/Index"><img class="logo" src="~/images/logo.png" /></a>
-		
+
         <a asp-page="/Index">
-            <div class=menuitem>
+            <div class="menuitem">
                 <div class="material-icons-outlined">home</div><div class="iconsnames">Home</div>
             </div>
         </a>
         <a asp-page="/Login">
-            <div class=menuitem>
+            <div class="menuitem">
                 <div class="material-icons-outlined">login</div><div class="iconsnames">Log in</div>
             </div>
         </a>
-        <a asp-page="/Index">
-            <div class=menuitem>
-                <div class="material-icons-outlined">add</div><div class="iconsnames">Add</div>
+        <div class="menuitem">
+            <div class="dropdown">
+                <div class="material-icons-outlined">add</div>
+                <div class="iconsnames dropbtn" onclick="myFunction()">Add</div>
+                 <div id="myDropdown" class="dropdown-content">
+                     <ul>
+                    <li><a asp-area="" asp-page="/Photos/AddPhoto">Photo</a></li>
+                    <li><a asp-area=""asp-page="/Albums/AddAlbum">Album</a></li>
+                    </ul>
+                 </div>
             </div>
-        </a>
+        </div>
     </menu>
     <div class="container">
         <main>
@@ -50,7 +58,28 @@
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
+    <script>
+        /* When the user clicks on the button,
+        toggle between hiding and showing the dropdown content */
+        function toggleAddOptions() {
+            document.getElementById("myDropdown").classList.toggle("show");
+        }
 
+        // Close the dropdown menu if the user clicks outside of it
+        window.onclick = function (event) {
+            if (!event.target.matches('.dropbtn')) {
+                var dropdowns = document.getElementsByClassName("dropdown-content");
+                var i;
+                for (i = 0; i < dropdowns.length; i++) {
+                    var openDropdown = dropdowns[i];
+                    if (openDropdown.classList.contains('show')) {
+                        openDropdown.classList.remove('show');
+                    }
+                }
+            }
+        }
+
+    </script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

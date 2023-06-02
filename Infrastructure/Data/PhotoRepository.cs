@@ -38,6 +38,11 @@ namespace Infrastructure.Data
         public async Task DeletePhotoAsync(ObjectId photoId)
         {
             await _photoCollection.DeleteOneAsync(p => p.Id == photoId);
-        } 
-    }
+        }
+
+		public IEnumerable<Photo> GetAll()
+		{
+            return _photoCollection.Find(FilterDefinition<Photo>.Empty).ToList();
+		}
+	}
 }

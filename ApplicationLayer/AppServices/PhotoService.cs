@@ -1,15 +1,17 @@
 ﻿using Domain.Models;
 using Domain.Repositories;
+using Domain.Services;
 using MongoDB.Bson;
+using MongoDB.Driver;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Domain.Services
+namespace ApplicationLayer.AppServices
 {
-    public class PhotoService
+    public class PhotoService : IPhotoService
     {
         private readonly IPhotoRepository _photoRepository;
 
@@ -118,5 +120,11 @@ namespace Domain.Services
                 throw;
             }
         }
-    }
+
+		public IEnumerable<Photo> GetAll()
+		{
+            var photos = _photoRepository.GetAll();
+            return photos;
+		}
+	}
 }

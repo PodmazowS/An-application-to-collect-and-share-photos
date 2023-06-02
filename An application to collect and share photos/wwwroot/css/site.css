@@ -19,10 +19,43 @@ menu {
     text-align: center;
     top:0;
 }
+
+menu li{
+    padding:5px;
+}
 .menuitem:hover {
     border-radius: 10px;
     background-color: #ededed;
 }
+
+.add-button {
+
+    cursor: pointer;
+}
+
+#addOptions {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: fit-content;
+    background-color: #fff;
+    padding: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-top: 5px;
+    margin-left: -10px;
+    text-align: center;
+}
+
+    #addOptions a {
+        display: block;
+        color: #333;
+        text-decoration: none;
+        padding: 5px;
+    }
+
+        #addOptions a:hover {
+            background-color: #f1f1f1;
+        }
 main {
     padding-left: 20%;
     height: 100%;
@@ -60,6 +93,21 @@ p {
     position: relative;
     width: 60px;
 }
+.dropdown:hover .dropdown-content,
+.dropdown-content:hover {
+    display: block;
+}
+
+.dropdown-content {
+    display: none;
+    opacity: 1;
+}
+
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+
 
 @media (max-width:1200px) {
     .iconsnames {
