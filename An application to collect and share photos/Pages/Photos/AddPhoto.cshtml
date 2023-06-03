@@ -1,5 +1,5 @@
 ﻿@page
-@model PhotoVM
+@model AddPhotoModel
 
 @{
     ViewData["Title"] = "Add a new photo";
@@ -16,7 +16,7 @@
         </p>
         <div class="row">
             <div class="col-md-8 offset-2">
-                <form method="post" asp-page="/AddPhoto" asp-page-handler="OnPostAsync">
+                <form method="post" asp-page="/AddPhoto">
                     <div class="form-group text-center">
                         <img id="PhotoPreview" class="rounded-2" />
                     </div>
@@ -52,7 +52,7 @@
                         <span asp-validation-for="Status" class="text-danger"></span>
                     </div>
                     <div class="form-group">
-                        <input type="submit" value="Create" class="btn btn-primary" />
+                        <input type="submit" value="Create" name="submit" class="btn btn-primary" />
                         <a class="btn btn-outline-secondary" asp-page="/Index">Back to List</a>
                     </div>
                 </form>

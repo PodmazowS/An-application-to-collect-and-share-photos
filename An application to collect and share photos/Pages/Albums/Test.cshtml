@@ -1,0 +1,26 @@
+﻿@page
+@using Microsoft.AspNetCore.Http
+@model An_application_to_collect_and_share_photos.Pages.testpostModel
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>testpost</title>
+</head>
+<body>
+    <div style="margin-top:30px;">
+        <form method="post">
+            <div>Name: <input name="name" /></div>
+            <div><input type="submit" /></div>
+        </form>
+    </div>
+    <div>@ViewData["mytest"]</div>
+
+</body>
+</html>
+

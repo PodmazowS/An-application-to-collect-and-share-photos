@@ -25,8 +25,12 @@ public class MongoDBContext
         _likes = database.GetCollection<Like>(settings.Value.LikeCollection);
         _comments = database.GetCollection<Comment>(settings.Value.CommentCollection);
     }
-    public IMongoCollection<Photo> Photos => _photos;
+    public IMongoCollection<User> Users => _users;
     public IMongoCollection<UserRole> UserRoles => _userroles;
+    public IMongoCollection<Photo> Photos => _photos;
+    public IMongoCollection<Album> Albums => _albums;
+    public IMongoCollection<Like> Likes => _likes;
+    public IMongoCollection<Comment> Comments => _comments;
 
 
     // Додайте будь-які інші методи або функціональність, яку потребуєте
