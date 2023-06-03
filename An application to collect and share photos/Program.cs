@@ -58,6 +58,9 @@ namespace An_application_to_collect_and_share_photos
             builder.Services.AddScoped<IPhotoRepository, PhotoRepository>();
             builder.Services.AddScoped<IPhotoService, PhotoService>();
 
+            builder.Services.AddScoped<IAlbumRepository, AlbumRepository>();
+            builder.Services.AddScoped<IAlbumService, AlbumService>();
+
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.

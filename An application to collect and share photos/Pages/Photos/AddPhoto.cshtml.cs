@@ -4,7 +4,6 @@ using ApplicationLayer.AppServices;
 using Domain.Models;
 using System.Threading.Tasks;
 using Domain.Services;
-using An_application_to_collect_and_share_photos.ViewModels;
 using MongoDB.Bson;
 using System.ComponentModel.DataAnnotations;
 
