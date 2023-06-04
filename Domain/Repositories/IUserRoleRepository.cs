@@ -10,10 +10,10 @@ namespace Domain.Repositories
 {
     public interface IUserRoleRepository
     {
-        UserRole GetUserRoleById(ObjectId userRoleId);
-        UserRole GetUserRoleByName(string roleName);
-        Task CreateUserRole(UserRole userRole);
-        Task UpdateUserRole(UserRole userRole);
-        Task DeleteUserRole(ObjectId userRoleId);
+        Task<UserRole> GetUserRoleByIdAsync(ObjectId userRoleId);
+        Task<UserRole> GetUserRoleByNameAsync(string roleName);
+        Task CreateUserRoleAsync(UserRole userRole);
+        Task UpdateUserRoleAsync(UserRole userRole);
+        Task DeleteUserRoleAsync(ObjectId userRoleId);
     }
 }

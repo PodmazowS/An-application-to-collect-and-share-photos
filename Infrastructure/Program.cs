@@ -22,7 +22,7 @@ namespace Infrastructure
             builder.Services.AddSwaggerGen();
 
             builder.Services.Configure<MongoDBSettings>(builder.Configuration.GetSection("MongoDB"));
-            builder.Services.AddSingleton<MongoDBContext>();
+            builder.Services.AddSingleton<MongoDBContext<User, UserRole, ObjectId>>();
  
             var app = builder.Build();
 

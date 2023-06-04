@@ -22,7 +22,7 @@ namespace An_application_to_collect_and_share_photos.Pages
 
         [Display(Name = "Photo URL")]
         [Required(ErrorMessage = "Please enter a picture URL")]
-        public string Url { get; set; }
+        public string PhotoUrl { get; set; }
         [Display(Name = "Title")]
         [Required(ErrorMessage = "Please enter a title for the image")]
         public string Title { get; set; }
@@ -55,7 +55,7 @@ namespace An_application_to_collect_and_share_photos.Pages
                 Id = ObjectId.GenerateNewId(),
                 UserId = ObjectId.GenerateNewId(),
                 AlbumId = null,
-                Url = Url,
+                Url = PhotoUrl,
                 Title = Title,
                 Description = Description,
                 CameraName = CameraName,

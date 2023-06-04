@@ -1,5 +1,6 @@
 ﻿using Domain.Models;
 using Domain.Repositories;
+using Microsoft.AspNetCore.Identity;
 using MongoDB.Bson;
 using MongoDB.Driver;
 using System.Numerics;
@@ -31,11 +32,20 @@ namespace Infrastructure.Data
 
         public async Task<User> GetUserByEmail(string email)
         {
-            var filter = Builders<User>.Filter.Eq("_id", email);
+            var filter = Builders<User>.Filter.Eq("Email", email);
             var user = await _userCollection.Find(filter).FirstOrDefaultAsync();
             return user;
         }
+        public async Task<bool> CheckPassword(ObjectId userId, string password)
+        {
+            var user = await GetUserById(userId);
+            if (user == null)
+                return false;
 
+            var result = Equals(user.PasswordHash, password);
+
+            return result;
+        }
 
         public async Task CreateUser(User user)
         {
