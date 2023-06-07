@@ -52,7 +52,21 @@ namespace Infrastructure.MongoDB
 
         public Task<Photo> GetPhotoByIdAsync(ObjectId photoId)
         {
-            throw new NotImplementedException();
+            return _photos
+                .Find(Builders<Photo>.Filter.Eq(p => p.Id, photoId))
+                .Project(p =>
+                    new Photo(
+                        p.Id,
+                        p.Url,
+                        p.Title,
+                        p.Description,
+                        p.CameraName,
+                        p.Status,
+                        p.UploadDate,
+                        p.Tag,
+                        p.UserId
+                    )
+                ).FirstOrDefaultAsync();
         }
 
         public Task<IEnumerable<Photo>> GetPhotosByUserIdAsync(ObjectId userId)
