@@ -1,5 +1,6 @@
 ﻿using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
+using MongoDB.Bson.Serialization.IdGenerators;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -30,5 +31,22 @@ namespace Domain.Models
         public DateTime UploadDate { get; set; }
         [BsonElement("tag")]
         public string Tag { get; set; }
+
+        public Photo(ObjectId id, string url, string title, string description, string cameraname, string status, DateTime uploaddate, string tag, ObjectId userid)
+        {
+            Id = id;
+            Url = url;
+            Title = title;
+            Description = description;
+            CameraName = cameraname;
+            Status = status;
+            UploadDate = uploaddate;
+            Tag = tag;
+            UserId = userid;
+        }
+        public Photo()
+        {
+
+        }
     }
 }

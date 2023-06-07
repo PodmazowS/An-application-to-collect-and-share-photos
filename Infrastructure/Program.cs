@@ -1,7 +1,11 @@
 using Domain.Models;
+using Domain.Repositories;
+using Domain.Services;
 using Infrastructure.Data;
 using Infrastructure.MongoDB;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
 using MongoDB.Bson;
 using MongoDB.Driver;
 
@@ -9,8 +13,10 @@ namespace Infrastructure
 {
     public class Program
     {
+
         public static void Main(string[] args)
         {
+
 
             var builder = WebApplication.CreateBuilder(args);
 
@@ -21,9 +27,25 @@ namespace Infrastructure
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 
+
             builder.Services.Configure<MongoDBSettings>(builder.Configuration.GetSection("MongoDB"));
-            builder.Services.AddSingleton<MongoDBContext>();
- 
+            builder.Services.AddSingleton<IMongoClient, MongoClient>(sp =>
+            {
+                var settings = sp.GetRequiredService<IOptions<MongoDBSettings>>().Value;
+                return new MongoClient(settings.ConnectionUri);
+            });
+            builder.Services.AddScoped<IMongoDatabase>(sp =>
+            {
+                var client = sp.GetRequiredService<IMongoClient>();
+                var settings = sp.GetRequiredService<IOptions<MongoDBSettings>>().Value;
+                return client.GetDatabase(settings.DatabaseName);
+            });
+
+            builder.Services.AddControllers();
+            builder.Services.AddScoped<MongoDBContext>();
+            builder.Services.AddSingleton<  PhotoServiceMongoDb>();
+
+
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
@@ -32,30 +54,11 @@ namespace Infrastructure
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
-
+            app.MapControllers();   
             app.UseHttpsRedirection();
+            app.UseRouting();
             app.UseAuthorization();
 
-
- /*           var dbContext = app.Services.GetRequiredService<MongoDBContext>();
-
-            var photo = new Photo
-            {
-                Url = "https://example.com/photo.jpg",
-                Title = "New Photo",
-                Description = "This is a new photo",
-                AlbumId = ObjectId.GenerateNewId(),
-                UserId = ObjectId.GenerateNewId(),
-                CameraName = "Canon",
-                Status = "Active",
-                UploadDate = DateTime.Now,
-                Tag = "Nature"
-            };
-
-            dbContext.Photos.InsertOne(photo);
-
-            Console.WriteLine("Photo added to collection.");
- */
 
             app.Run();
         }
