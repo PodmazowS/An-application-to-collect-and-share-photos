@@ -1,3 +1,4 @@
+using ApplicationLayer.AppServices;
 using Domain.Models;
 using Domain.Services;
 using Microsoft.AspNetCore.Identity;
@@ -5,26 +6,29 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using MongoDB.Bson;
 using System.ComponentModel.DataAnnotations;
+using System.Data;
 using System.Xml.Linq;
-using Infrastructure.Data.UserRoles__Static_;
 
 namespace An_application_to_collect_and_share_photos.Pages
 {
     public class SignupModel : PageModel
     {
-        private readonly IUserService _userService;
-        private readonly IUserRoleService _userRoleService;
+        private UserService _userService;
+        private UserManager<User> _userManager;
+        private RoleManager<UserRole> _roleManager;
 
-        public SignupModel(IUserService userService, IUserRoleService userRoleService)
+        public SignupModel(UserManager<User> userManager, RoleManager<UserRole> roleManager, UserService userService)
         {
+            _userManager = userManager;
+            _roleManager = roleManager;
             _userService = userService;
-            _userRoleService = userRoleService;
         }
 
         [BindProperty]
         [Display(Name = "Name")]
         [Required(ErrorMessage = "Please enter your username")]
-        [MinLength(5,ErrorMessage = "Your username is too short")]
+        [MinLength(5, ErrorMessage = "Your username is too short")]
+        [RegularExpression(@"^[a-zA-Z0-9]*$", ErrorMessage = "Login must only contain letters and digits")]
         public string Username { get; set; }
 
         [BindProperty]
@@ -36,6 +40,7 @@ namespace An_application_to_collect_and_share_photos.Pages
         [BindProperty]
         [Display(Name = "Password")]
         [Required(ErrorMessage = "Please enter a password")]
+        [RegularExpression("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[^\\da-zA-Z]).{6,}$", ErrorMessage = "Password must be at least 6 characters long and contain at least one small letter, one capital letter, one special sign and one digit.")]
         [DataType(DataType.Password)]
         public string Password { get; set; }
 
@@ -45,6 +50,7 @@ namespace An_application_to_collect_and_share_photos.Pages
         [DataType(DataType.Password)]
         [Compare(nameof(Password), ErrorMessage = "The password and confirmation password do not match")]
         public string ConfirmPassword { get; set; }
+
         public void OnGet()
         {
         }
@@ -52,10 +58,12 @@ namespace An_application_to_collect_and_share_photos.Pages
         {
             if (!ModelState.IsValid)
             {
-                // Якщо модель недійсна, поверніть сторінку з помилками валідації
                 return Page();
             }
-
+            if (_userService.GetUserByEmailAsync(Email) != null)
+            {
+                return Page();
+            }
             var user = new User
             {
                 Id = ObjectId.GenerateNewId(),
@@ -63,20 +71,16 @@ namespace An_application_to_collect_and_share_photos.Pages
                 Email = Email,
                 PasswordHash = Password
             };
-            await _userService.CreateUserAsync(user);
 
-            
-            var userRole = new UserRole
+            IdentityResult result = await _userManager.CreateAsync(user, user.PasswordHash);
+            if (result.Succeeded)
             {
-                Id = ObjectId.GenerateNewId(),
-                UserId = user.Id,
-                Name = UserRoles.User
-            };
+                _userManager.AddToRoleAsync(user,"User");
+                return RedirectToPage("/Users/SignUpSuccess");
+            }
 
-            await _userRoleService.CreateUserRoleAsync(userRole);
 
-            return RedirectToPage("/Users/SignUpSuccess");
-
+            return Page();
         }
     }
 }

@@ -1,23 +1,23 @@
+using Domain.Models;
 using Domain.Services;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.ComponentModel.DataAnnotations;
 using System.Xml.Linq;
-using AspNetCore.Identity.MongoDbCore;
-using Microsoft.AspNetCore.Identity;
-using Domain.Models;
 
 namespace An_application_to_collect_and_share_photos.Pages
 {
     public class LoginModel : PageModel
     {
-        private readonly IUserService _userService;
-        private readonly SignInManager<User> _signInManager;
-        public LoginModel(IUserService userService, SignInManager<User> signInManager)
+        private UserManager<User> _userManager;
+        private SignInManager<User> _signInManager;
+
+        public LoginModel(UserManager<User> userManager, SignInManager<User> signInManager)
         {
-            _userService = userService;
-            _signInManager = signInManager;
-        }
+            _userManager = userManager;
+            _signInManager = signInManager;        }
+
 
         [BindProperty]
         [Display(Name = "Email")]
@@ -35,26 +35,21 @@ namespace An_application_to_collect_and_share_photos.Pages
         }
         public async Task<IActionResult> OnPostAsync()
         {
-            if (!ModelState.IsValid)
+            if (ModelState.IsValid)
             {
-                // Якщо модель недійсна, поверніть сторінку з помилками валідації
-                return Page();
-            }
-            var user = await _userService.GetUserByEmailAsync(Email);
-            if (user != null)
-            {
-                var passwordCheck = await _userService.CheckPasswordAsync(user.Id, Password);
-                if (passwordCheck)
+                User appUser = await _userManager.FindByEmailAsync(Email);
+                if (appUser != null)
                 {
-                    //   var result = _signInManager.PasswordSignInAsync(user, Password, false, false);
-                    //   if (result.IsCompletedSuccessfully)
-                    //   {
-                        return RedirectToPage("/Index");
-                 //   }
+                    Microsoft.AspNetCore.Identity.SignInResult result = await _signInManager.PasswordSignInAsync(appUser, Password, false, false);
+                    if (result.Succeeded)
+                    {
+                        return RedirectToPage("/Users/LoginSuccess");
+                    }
                 }
+                TempData["Error"] = "Wrong credentials. Please, try again!";
             }
-            TempData["Error"] = "Wrong credentials. Please, try again!";
             return Page();
         }
-    } 
+
+    }
 }
