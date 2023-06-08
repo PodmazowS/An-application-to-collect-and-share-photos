@@ -10,6 +10,12 @@
 </head>
 
 <div class="card card-container">
+    @if (TempData["Error"] != null)
+    {
+        <div class="col-md-12 alert alert-danger">
+            <span><b>Sorry!</b> - @TempData["Error"]</span>
+        </div>
+    }
     <img id="profile-img" src="~/images/user.png" />
     <p id="profile-name" class="profile-name-card"></p>
     <form method ="post" asp-page="/SignUp">

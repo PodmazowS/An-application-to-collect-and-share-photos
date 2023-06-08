@@ -13,15 +13,13 @@ namespace An_application_to_collect_and_share_photos.Pages
 {
     public class SignupModel : PageModel
     {
-        private UserService _userService;
         private UserManager<User> _userManager;
         private RoleManager<UserRole> _roleManager;
 
-        public SignupModel(UserManager<User> userManager, RoleManager<UserRole> roleManager, UserService userService)
+        public SignupModel(UserManager<User> userManager, RoleManager<UserRole> roleManager)
         {
             _userManager = userManager;
             _roleManager = roleManager;
-            _userService = userService;
         }
 
         [BindProperty]
@@ -60,8 +58,11 @@ namespace An_application_to_collect_and_share_photos.Pages
             {
                 return Page();
             }
-            if (_userService.GetUserByEmailAsync(Email) != null)
+
+            var existingUser = await _userManager.FindByEmailAsync(Email);
+            if (existingUser != null)
             {
+                TempData["Error"] = "User with this e-mail already exists!";
                 return Page();
             }
             var user = new User
