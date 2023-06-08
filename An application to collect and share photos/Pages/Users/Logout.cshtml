@@ -1,0 +1,19 @@
+﻿@page
+@model An_application_to_collect_and_share_photos.Pages.Users.LogoutModel
+@{
+}
+
+<head>
+    <link href="~/css/login.css" rel="stylesheet" />
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+</head>
+
+<div class="card card-container">
+    <form method="post" asp-page="/Logout">
+        <div class="form-group">
+            <h3>Are you sure you want to log out?</h3>
+        </div>
+        <button class="btn btn-lg btn-primary btn-block btn-signin" value="Sign Out" name="submit" type="submit">Log Out</button>
+    </form>
+</div>

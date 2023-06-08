@@ -6,23 +6,29 @@ using System.Threading.Tasks;
 using Domain.Services;
 using MongoDB.Bson;
 using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Authorization;
+using System.Data;
 
 namespace An_application_to_collect_and_share_photos.Pages
 {
     [BindProperties]
+    [Authorize(Roles = "Admin, User")]
     public class AddPhotoModel : PageModel
     {
 
         private readonly IPhotoService _photoService;
-        public AddPhotoModel(IPhotoService photoService)
+        private readonly UserManager<User> _userManager;
+        public AddPhotoModel(IPhotoService photoService, UserManager<User> userManager)
         {
+            _userManager = userManager;
             _photoService = photoService;
         }
 
 
         [Display(Name = "Photo URL")]
         [Required(ErrorMessage = "Please enter a picture URL")]
-        public string Url { get; set; }
+        public string PhotoUrl { get; set; }
         [Display(Name = "Title")]
         [Required(ErrorMessage = "Please enter a title for the image")]
         public string Title { get; set; }
@@ -49,13 +55,14 @@ namespace An_application_to_collect_and_share_photos.Pages
                 // Якщо модель недійсна, поверніть сторінку з помилками валідації
                 return Page();
             }
+            User user = await _userManager.GetUserAsync(User);
 
             var photo = new Photo
             {
                 Id = ObjectId.GenerateNewId(),
-                UserId = ObjectId.GenerateNewId(),
+                UserId = user.Id,
                 AlbumId = null,
-                Url = Url,
+                Url = PhotoUrl,
                 Title = Title,
                 Description = Description,
                 CameraName = CameraName,

@@ -12,6 +12,7 @@ namespace Domain.Repositories
     {
         Task<User> GetUserById(ObjectId userId);
         Task<User> GetUserByEmail(string email);
+        Task<bool> CheckPassword(ObjectId userId, string password);
         Task<IEnumerable<User>> GetAll();
         Task CreateUser(User user);
         Task<User> UpdateUser(ObjectId userId, User user);

@@ -19,7 +19,7 @@ public class UserRoleRepository
 
     public async Task<UserRole> GetUserRoleByName(string roleName)
     {
-        return await _userRoleCollection.Find(r => r.RoleName == roleName).FirstOrDefaultAsync();
+        return await _userRoleCollection.Find(r => r.Name == roleName).FirstOrDefaultAsync();
     }
 
     public async Task CreateUserRole(UserRole userRole)

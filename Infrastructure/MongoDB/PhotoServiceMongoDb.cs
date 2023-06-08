@@ -26,7 +26,17 @@ namespace Infrastructure.MongoDB
 
         public Task DeletePhotoAsync(ObjectId photoId)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var filter = Builders<Photo>.Filter.Eq(p => p.Id, photoId);
+                return _photos.DeleteOneAsync(filter);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"An error occurred while deleting the photo with ID {photoId}: {ex.Message}");
+                throw;
+                
+            }
         }
         [HttpGet]
         public IEnumerable<Photo> GetAll()
@@ -52,12 +62,30 @@ namespace Infrastructure.MongoDB
 
         public Task<Photo> GetPhotoByIdAsync(ObjectId photoId)
         {
-            throw new NotImplementedException();
+            return _photos
+                .Find(Builders<Photo>.Filter.Eq(p => p.Id, photoId))
+                .Project(p =>
+                    new Photo(
+                        p.Id,
+                        p.Url,
+                        p.Title,
+                        p.Description,
+                        p.CameraName,
+                        p.Status,
+                        p.UploadDate,
+                        p.Tag,
+                        p.UserId
+                    )
+                ).FirstOrDefaultAsync();
         }
 
-        public Task<IEnumerable<Photo>> GetPhotosByUserIdAsync(ObjectId userId)
+        public async Task<IEnumerable<Photo>> GetPhotosByUserIdAsync(ObjectId userId)
         {
-            throw new NotImplementedException();
+            var photos = await _photos
+                .Find(Builders<Photo>.Filter.Eq(p => p.UserId, userId))
+                .ToListAsync();
+
+            return photos;
         }
 
         public Task UpdatePhotoAsync(Photo photo)

@@ -1,5 +1,7 @@
-﻿using MongoDB.Bson;
+﻿using AspNetCore.Identity.MongoDbCore.Models;
+using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
+using MongoDbGenericRepository.Attributes;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,13 +10,9 @@ using System.Threading.Tasks;
 
 namespace Domain.Models
 {
-    public class UserRole
+    [CollectionName("Roles")]
+    public class UserRole : MongoIdentityRole<ObjectId>
     {
-        [BsonElement("id")]
-        public ObjectId Id { get; set; }
-        [BsonElement("userid")]
-        public ObjectId UserId { get; set; }
-        [BsonElement("rolename")]
-        public string RoleName { get; set; }
+        
     }
 }
