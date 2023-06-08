@@ -76,7 +76,7 @@ namespace An_application_to_collect_and_share_photos.Pages
             IdentityResult result = await _userManager.CreateAsync(user, user.PasswordHash);
             if (result.Succeeded)
             {
-                _userManager.AddToRoleAsync(user,"User");
+                await _userManager.AddToRoleAsync(user,"User");
                 return RedirectToPage("/Users/SignUpSuccess");
             }
 
