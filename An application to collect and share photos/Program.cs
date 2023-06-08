@@ -10,14 +10,16 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
 using MongoDB.Driver;
 using Domain.Models;
-using AspNetCore.Identity.MongoDbCore.Infrastructure;
 using MongoDB.Bson;
-using AspNetCore.Identity.MongoDbCore;
 using Microsoft.AspNetCore.Identity;
-
+using System.Security.Cryptography.X509Certificates;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace An_application_to_collect_and_share_photos
 {
+
+   
     public class Program
     {
         private readonly IConfiguration _configuration;
@@ -47,8 +49,7 @@ namespace An_application_to_collect_and_share_photos
 
             builder.Services.AddControllersWithViews();
 
-            // Configure MongoDB
-            builder.Services.Configure<MongoDBSettings>(_configuration.GetSection("MongoDB"));
+            builder.Services.Configure<MongoDBSettings>(_configuration.GetSection("MongoDBSettings"));
             builder.Services.AddSingleton<IMongoClient, MongoClient>(sp =>
             {
                 var settings = sp.GetRequiredService<IOptions<MongoDBSettings>>().Value;
@@ -60,15 +61,8 @@ namespace An_application_to_collect_and_share_photos
                 var settings = sp.GetRequiredService<IOptions<MongoDBSettings>>().Value;
                 return client.GetDatabase(settings.DatabaseName);
             });
-            builder.Services.AddScoped<MongoDBContext<User, UserRole, ObjectId>>();
+            builder.Services.AddScoped<MongoDBContext>();
 
-            // Configure Identity with MongoDB stores
-            builder.Services.AddIdentity<User, UserRole>()
-                .AddMongoDbStores<User, UserRole, ObjectId>("mongodb+srv://ivanadmin:admin123%24@photosharingapplication.b6syjhf.mongodb.net/?retryWrites=true&w=majority",
-                "photosharingappdb") // Додано налаштування Identity з використанням MongoDB
-                .AddDefaultTokenProviders();
-
-            // Configure Services
             builder.Services.AddScoped<IPhotoRepository, PhotoRepository>();
             builder.Services.AddScoped<IPhotoService, PhotoService>();
 
@@ -78,8 +72,11 @@ namespace An_application_to_collect_and_share_photos
             builder.Services.AddScoped<IUserRepository, UserRepository>();
             builder.Services.AddScoped<IUserService, UserService>();
 
-            builder.Services.AddScoped<IUserRoleRepository, UserRoleRepository>();
-            builder.Services.AddScoped<IUserRoleService, UserRoleService>();
+            //Add Identity
+            var mongoDbSettings = _configuration.GetSection(nameof(MongoDBSettings)).Get<MongoDBSettings>();
+            builder.Services.AddIdentity<User, UserRole>()
+                .AddMongoDbStores<User, UserRole, ObjectId>(
+                mongoDbSettings.ConnectionUri,mongoDbSettings.DatabaseName);
 
             var app = builder.Build();
 
@@ -94,13 +91,16 @@ namespace An_application_to_collect_and_share_photos
             app.UseStaticFiles();
 
             app.UseRouting();
-            app.UseAuthentication();
+
+            app.UseAuthentication(); // Додано виклик UseAuthentication()
+
             app.UseAuthorization();
+
             app.MapRazorPages();
-            app.MapControllerRoute(
-                name: "account",
-                pattern: "Account/SignUpAsync",
-                defaults: new { controller = "Account", action = "SignUpAsync" });
+
+
+
+
 
             app.Run();
         }
