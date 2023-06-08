@@ -24,7 +24,6 @@ namespace Infrastructure.Data
             var photo = await _photoCollection.Find(filter).FirstOrDefaultAsync();
             return photo;
         }
-
         public async Task<IEnumerable<Photo>> GetPhotosByUserIdAsync(ObjectId userId)
         {
             var filter = Builders<Photo>.Filter.Eq(p => p.UserId, userId);

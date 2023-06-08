@@ -22,23 +22,47 @@
                 <div class="material-icons-outlined">home</div><div class="iconsnames">Home</div>
             </div>
         </a>
-        <a asp-page="/Login">
-            <div class="menuitem">
+        @if (!User.Identity.IsAuthenticated)
+        {
+        <a asp-page="Users/Login">
+                <div class="menuitem">
                 <div class="material-icons-outlined">login</div><div class="iconsnames">Log in</div>
             </div>
         </a>
-        <div class="menuitem">
-            <div class="dropdown">
-                <div class="material-icons-outlined">add</div>
-                <div class="iconsnames dropbtn" onclick="myFunction()">Add</div>
-                 <div id="myDropdown" class="dropdown-content">
-                     <ul>
-                    <li><a asp-area="" asp-page="/Photos/AddPhoto">Photo</a></li>
-                    <li><a asp-area=""asp-page="/Albums/AddAlbum">Album</a></li>
-                    </ul>
-                 </div>
+        }
+        @if (User.Identity.IsAuthenticated)
+        {
+        <a asp-page="Users/ProfilePage">
+            <div class="menuitem">
+                <div class="material-icons-outlined">person</div><div class="iconsnames">Profile</div>
             </div>
-        </div>
+        </a>
+            <div class="menuitem">
+                <div class="dropdown">
+                    <div class="material-icons-outlined">add</div>
+                    <div class="iconsnames dropbtn" onclick="myFunction()">Add</div>
+                    <div id="myDropdown" class="dropdown-content">
+                        <ul>
+                            <li><a asp-area="" asp-page="/Photos/AddPhoto">Photo</a></li>
+                            <li><a asp-area="" asp-page="/Albums/AddAlbum">Album</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <a asp-page="Users/Logout">
+            <div class="menuitem">
+                <div class="material-icons-outlined">logout</div><div class="iconsnames">Logout</div>
+            </div>
+            </a>
+        }
+        @if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
+        {
+            <a asp-page="Users/AssignRole">
+            <div class="menuitem">
+                <div class="material-icons-outlined">settings-applications</div><div class="iconsnames">Roles</div>
+            </div>
+        </a>
+        }
     </menu>
     <div class="container">
         <main>

@@ -9,9 +9,17 @@ using Infrastructure.MongoDB;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
 using MongoDB.Driver;
+using Domain.Models;
+using MongoDB.Bson;
+using Microsoft.AspNetCore.Identity;
+using System.Security.Cryptography.X509Certificates;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace An_application_to_collect_and_share_photos
 {
+
+   
     public class Program
     {
         private readonly IConfiguration _configuration;
@@ -41,7 +49,7 @@ namespace An_application_to_collect_and_share_photos
 
             builder.Services.AddControllersWithViews();
 
-            builder.Services.Configure<MongoDBSettings>(_configuration.GetSection("MongoDB"));
+            builder.Services.Configure<MongoDBSettings>(_configuration.GetSection("MongoDBSettings"));
             builder.Services.AddSingleton<IMongoClient, MongoClient>(sp =>
             {
                 var settings = sp.GetRequiredService<IOptions<MongoDBSettings>>().Value;
@@ -61,6 +69,15 @@ namespace An_application_to_collect_and_share_photos
             builder.Services.AddScoped<IAlbumRepository, AlbumRepository>();
             builder.Services.AddScoped<IAlbumService, AlbumService>();
 
+            builder.Services.AddScoped<IUserRepository, UserRepository>();
+            builder.Services.AddScoped<IUserService, UserService>();
+
+            //Add Identity
+            var mongoDbSettings = _configuration.GetSection(nameof(MongoDBSettings)).Get<MongoDBSettings>();
+            builder.Services.AddIdentity<User, UserRole>()
+                .AddMongoDbStores<User, UserRole, ObjectId>(
+                mongoDbSettings.ConnectionUri,mongoDbSettings.DatabaseName);
+
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
@@ -75,9 +92,15 @@ namespace An_application_to_collect_and_share_photos
 
             app.UseRouting();
 
+            app.UseAuthentication(); // Додано виклик UseAuthentication()
+
             app.UseAuthorization();
 
             app.MapRazorPages();
+
+
+
+
 
             app.Run();
         }
