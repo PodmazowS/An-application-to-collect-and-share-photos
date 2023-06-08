@@ -27,13 +27,15 @@ namespace Infrastructure
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 
-
+            //
             builder.Services.Configure<MongoDBSettings>(builder.Configuration.GetSection("MongoDB"));
             builder.Services.AddSingleton<IMongoClient, MongoClient>(sp =>
             {
                 var settings = sp.GetRequiredService<IOptions<MongoDBSettings>>().Value;
                 return new MongoClient(settings.ConnectionUri);
             });
+
+
             builder.Services.AddScoped<IMongoDatabase>(sp =>
             {
                 var client = sp.GetRequiredService<IMongoClient>();
@@ -43,7 +45,7 @@ namespace Infrastructure
 
             builder.Services.AddControllers();
             builder.Services.AddScoped<MongoDBContext>();
-            builder.Services.AddSingleton<  PhotoServiceMongoDb>();
+            builder.Services.AddSingleton<PhotoServiceMongoDb>();
 
 
             var app = builder.Build();
@@ -63,4 +65,7 @@ namespace Infrastructure
             app.Run();
         }
     }
+}
+public partial class Program
+{
 }
