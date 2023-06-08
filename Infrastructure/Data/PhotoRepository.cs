@@ -27,7 +27,9 @@ namespace Infrastructure.Data
 
         public async Task<IEnumerable<Photo>> GetPhotosByUserIdAsync(ObjectId userId)
         {
-            return await _photoCollection.Find(p => p.UserId == userId).ToListAsync();
+            var filter = Builders<Photo>.Filter.Eq(p => p.UserId, userId);
+            var photos = await _photoCollection.Find(filter).ToListAsync();
+            return photos;
         }
 
         public async Task UpdatePhotoAsync(Photo photo)

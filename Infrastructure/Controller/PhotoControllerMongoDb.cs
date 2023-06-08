@@ -36,5 +36,44 @@ namespace Infrastructure.Controller
             var result = PhotoDto.of(photo);
             return Ok(result);
         }
+        
+        
+        [HttpGet]
+        [Route("userId")]
+        public async Task<IActionResult> FindByUserId(ObjectId userId)
+        {
+            var photos = await _service.GetPhotosByUserIdAsync(userId);
+    
+            if (photos == null || !photos.Any())
+            {
+                return NotFound();
+            }
+    
+            return Ok(photos);
+        }
+        
+        [HttpDelete("{photoId}")]
+        public async Task<IActionResult> DeletePhotoAsync(string photoId)
+        {
+            try
+            {
+                ObjectId objectId;
+
+                if (!ObjectId.TryParse(photoId, out objectId))
+                {
+                    return BadRequest("Invalid photo ID format.");
+                }
+
+                await _service.DeletePhotoAsync(objectId);
+
+                return Ok($"Photo with ID {photoId} has been deleted.");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"An error occurred while deleting the photo: {ex.Message}");
+                return StatusCode(500, "An error occurred while deleting the photo.");
+            }
+        }
+        
     }
 }
