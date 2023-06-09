@@ -1,46 +1,87 @@
 ﻿using Infrastructure.Controller;
 using Microsoft.AspNetCore.Mvc.Testing;
+using MongoDB.Bson;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
+using Xunit;
 
 namespace Unit_Test
 {
-    public class PhotoApiTest
+    public class PhotoApiTest : IClassFixture<WebApplicationFactory<Program>>
     {
-        [Fact]
+        //Arrange for all methods 
+        private readonly HttpClient _client;
+
+
+        public PhotoApiTest(WebApplicationFactory<Program> factory)
+        {
+            _client = factory.CreateClient();
+        }
+        
+
+
+        [Fact]//it's correct        
         public async void GetShouldReturnCountPhotos()
         {
-            //Arrange
-            await using var application = new WebApplicationFactory<Program>();
-            using var client = application.CreateClient();
+
+            //await using var application = new WebApplicationFactory<Program>();
+            //using var client = application.CreateClient();
 
             //Act
-            var result = await client.GetFromJsonAsync<List<PhotoDto>>("/api/PhotoControllerMongoDb");
+            var result = await _client.GetFromJsonAsync<List<PhotoDto>>("/api/PhotoControllerMongoDb");
 
             //Assert
-            Assert.Equal(9, result.Count);//Equal(18, -   count photos in Db
+            Assert.Equal(12, result.Count);//Equal(9, -   count photos in Db
         }
 
 
 
-        [Fact]
+        [Fact]//it's correct
         public async void GetShouldReturnOkStatus()
         {
-            //Arrange
-            await using var application = new WebApplicationFactory<Program>();
-            using var client = application.CreateClient();
+            
+            //await using var application = new WebApplicationFactory<Program>();
+            //using var client = application.CreateClient();
 
             //Act
-            var result = await client.GetAsync("/api/PhotoControllerMongoDb");
+            var result = await _client.GetAsync("/api/PhotoControllerMongoDb");
 
             //Assert
             Assert.Equal(HttpStatusCode.OK, result.StatusCode);
             Assert.Contains("application/json", result.Content.Headers.GetValues("Content-Type").First());
         }
+
+
+        
+
+        
+        [Fact]
+        public async Task GetPhotoByIdAsync_WithValidId_ReturnsPhoto()
+        {
+            // Arrange
+            var validId = 1;
+                    
+            // Act
+            var result = await _client.GetAsync($"/api/PhotoControllerMongoDb/{validId}");
+
+            // Assert
+            Assert.Equal(HttpStatusCode.OK, result.StatusCode);
+
+            var content = await result.Content.ReadAsStringAsync();
+            var photo = JsonConvert.DeserializeObject<PhotoDto>(content);
+
+            Assert.NotNull(photo);
+            Assert.Equal(validId.ToString(), photo.Id);
+        }
+        
+
+
+
 
 
         //?
