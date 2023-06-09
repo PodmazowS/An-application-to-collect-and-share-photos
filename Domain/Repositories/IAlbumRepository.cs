@@ -16,7 +16,7 @@ namespace Domain.Repositories
         Task Create(Album album);
 
         //GetAll
-        Task<IEnumerable<Album>> GetAll();
+        IEnumerable<Album> GetAll();
 
         //GetById
         Task<Album> GetById(ObjectId id);

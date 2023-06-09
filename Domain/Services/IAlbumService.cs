@@ -11,7 +11,7 @@ namespace Domain.Services
 {
     public interface IAlbumService
     {
-        public Task<IEnumerable<Album>> GetAllAlbums();
+        public IEnumerable<Album> GetAllAlbums();
 
         public Task<Album> GetAlbumByIdAsync(ObjectId id);
 

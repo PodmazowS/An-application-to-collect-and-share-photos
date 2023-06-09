@@ -18,9 +18,9 @@ namespace Infrastructure.Data
 
 
         //GetAll
-        public async Task<IEnumerable<Album>> GetAll()
+        public IEnumerable<Album> GetAll()
         {
-            var albums = await _albumCollection.Find(_ => true).ToListAsync();
+            var albums = _albumCollection.Find(_ => true).ToList();
             return albums;
 
         }
