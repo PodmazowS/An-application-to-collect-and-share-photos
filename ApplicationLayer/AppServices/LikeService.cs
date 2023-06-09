@@ -25,18 +25,8 @@ public class LikeService : ILikeService
 
             await _likeRepository.DeleteLikeAsync(userId, photoId);
         }
-
-        // Create a new Like object
-        //var like = new Like
-        //{
-        //    UserId = userId,
-        //    PhotoId = photoId,
-        //    LikeCount = 1,
-
-        //};
-
-        // Save the like to the repository
-        await _likeRepository.CreateLikeAsync(like);
+        else
+            await _likeRepository.CreateLikeAsync(like);
     }
 
     public async Task UnlikePhotoAsync(ObjectId userId, ObjectId photoId)

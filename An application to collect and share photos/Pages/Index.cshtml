@@ -5,64 +5,35 @@
 }
 
 <!--Sample Index page-->
-<div class="media">
-    <div class="profileicon">
-        <a asp-page="/ProfilePage"> <img src="~/images/user.png" alt="profile">user</a>
-    </div>
-    <div class="mediaphoto">
-        <img src="~/images/sampleimg1.jpg" alt="image">
-		<p>Such a beautiful weather this Summer</p>
-    </div>
-    <div class="moreinfo">
-        <a href="#">More info about this image...</a>
-    </div>
+<div id="photo-container">
+    @foreach (var photo in Model.Photos)
+    {
+        var user = Model.Users.FirstOrDefault(u => u.Id == photo.UserId);
+        if (photo.Status == "Public" || photo.Status == "Protected" || User.IsInRole("Admin") || user.UserName == User.Identity.Name)
+        {
+            <div class="media">
+                <div class="profileicon">
+                    <a asp-page="/Users/ProfilePage" asp-page-handler="UserPage" asp-route-userId="@user.Id.ToString()">
+                        <img src="~/images/user.png" alt="profile">@user.UserName
+                    </a>
+                </div>
+                <div class="mediaphoto">
+                    <img src="@photo.Url" alt="@photo.Title">
+                    <p>@photo.Description</p>
+                </div>
+                <div class="moreinfo">
+                    <a asp-page="/Photos/ViewPhoto" asp-route-photoId="@photo.Id" asp-route-userId="@user.Id.ToString()">Info about this photo...</a>
+                </div>
+            </div>
+            <script>
+                var photoElement = document.querySelector('img[src="@photo.Url"]');
+                if ("@photo.Status" === "Protected") {
+                    photoElement.addEventListener('contextmenu', function (e) {
+                        e.preventDefault();
+                    });
+                }
+            </script>
+        }
+    }
 </div>
-<div class="media">
-    <div class="profileicon">
-        <a asp-page="/ProfilePage"> <img src="~/images/user.png" alt="profile">user</a>
-    </div>
-    <div class="mediaphoto">
-        <img src="~/images/sampleimg2.jpg" alt="image">
-        <p>Colors of Autumn</p>
-    </div>
-    <div class="moreinfo">
-        <a href="#">More info about this image...</a>
-    </div>
-</div>
-<div class="media">
-    <div class="profileicon">
-        <a asp-page="/ProfilePage"> <img src="~/images/user.png" alt="profile">user</a>
-    </div>
-    <div class="mediaphoto">
-        <img src="~/images/sampleimg3.jpg" alt="image">
-        <p>Snow white Winter</p>
-    </div>
-    <div class="moreinfo">
-        <a href="#">More info about this image...</a>
-    </div>
-</div>
-<div class="media">
-    <div class="profileicon">
-        <a asp-page="/ProfilePage"> <img src="~/images/user.png" alt="profile">user</a>
-    </div>
-    <div class="mediaphoto">
-        <img src="~/images/sampleimg4.jpg" alt="image">
-        <p>My favourite season...</p>
-    </div>
-    <div class="moreinfo">
-        <a href="#">More info about this image...</a>
-    </div>
-</div>
-<div class="media">
-    <div class="profileicon">
-        <a asp-page="/ProfilePage"> <img src="~/images/user.png" alt="profile">imie użytkownika</a>
-    </div>
-    <div class="mediaphoto">
-        Zdjęcie
-        <p>komentarz</p>
-    </div>
-    <div class="moreinfo">
-        <a href="#">Link do informacji o zdjęciu...</a>
-    </div>
 
-</div>

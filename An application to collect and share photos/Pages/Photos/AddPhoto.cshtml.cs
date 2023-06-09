@@ -16,7 +16,6 @@ namespace An_application_to_collect_and_share_photos.Pages
     [Authorize(Roles = "Admin, User")]
     public class AddPhotoModel : PageModel
     {
-
         private readonly IPhotoService _photoService;
         private readonly UserManager<User> _userManager;
         public AddPhotoModel(IPhotoService photoService, UserManager<User> userManager)
@@ -67,12 +66,14 @@ namespace An_application_to_collect_and_share_photos.Pages
                 Description = Description,
                 CameraName = CameraName,
                 Status = Status,
-                UploadDate = DateTime.Now
+                UploadDate = DateTime.Now,
+                Tag = Tag
                 // Копіювати інші властивості з PhotoVM до Photo
             };
 
             // Використовуйте _photoService для збереження фото
             await _photoService.CreatePhotoAsync(photo);
+
 
             // Перенаправте користувача на іншу сторінку або повідомте про успішне додавання фото
             return RedirectToPage("/Index");
