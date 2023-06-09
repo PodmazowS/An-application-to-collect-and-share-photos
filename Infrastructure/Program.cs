@@ -45,6 +45,7 @@ namespace Infrastructure
             builder.Services.AddScoped<MongoDBContext>();
             builder.Services.AddSingleton<AlbumServiceMongoDb>();
             builder.Services.AddSingleton<  PhotoServiceMongoDb>();
+            builder.Services.AddSingleton<CommentServiceMongoDb>();
             
             
             

@@ -23,6 +23,22 @@ namespace Domain.Models
         [BsonElement("date")]
         public DateTime Date { get; set; }
 
+        public Comment(ObjectId id, ObjectId userId, string userName, ObjectId photoId, string commentText,
+            DateTime date)
+        {
+            Id = id;
+            UserId = userId;
+            UserName = userName;
+            PhotoId = photoId;
+            CommentText = commentText;
+            Date = date;
+        }
+
+        public Comment()
+        {
+            
+        }
+
 
 
     }

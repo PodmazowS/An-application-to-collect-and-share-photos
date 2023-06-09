@@ -37,9 +37,19 @@ namespace Infrastructure.MongoDB
 
 
 
-        public Task<Album> GetAlbumByIdAsync(ObjectId id)
+        public Task<Album> GetAlbumByIdAsync(ObjectId albumId)
         {
-            throw new NotImplementedException();
+            return _albums
+                .Find(Builders<Album>.Filter.Eq(a => a.Id, albumId))
+                .Project(a =>
+                    new Album(
+                        a.Id,
+                        a.Title,
+                        a.Status,
+                        a.UserId,
+                        a.Description
+                    )
+                ).FirstOrDefaultAsync();
         }
 
         public Task CreateAlbumAsync(Album album)
