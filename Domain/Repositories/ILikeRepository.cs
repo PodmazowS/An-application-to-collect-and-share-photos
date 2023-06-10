@@ -15,6 +15,8 @@ namespace Domain.Repositories
         Task CreateLikeAsync(Like like);
         Task DeleteLikeAsync(ObjectId userId, ObjectId photoId);
         Task<int> GetLikeCountForPhotoAsync(ObjectId photoId);
-       
+        Task<List<Like>> GetLikesByPhotoIdAsync(ObjectId photoId);
+
+
     }
 }

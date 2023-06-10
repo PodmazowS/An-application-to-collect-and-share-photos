@@ -48,4 +48,8 @@ public class LikeService : ILikeService
         // Get the like count for the photo from the repository
         return await _likeRepository.GetLikeCountForPhotoAsync(photoId);
     }
+    public async Task<List<Like>> GetLikesByPhotoIdAsync(ObjectId photoId)
+    {
+        return await _likeRepository.GetLikesByPhotoIdAsync(photoId);
+    }
 }

@@ -1,29 +1,48 @@
 ﻿@page
-@model AddPhotoModel
+@model An_application_to_collect_and_share_photos.Pages.Photos.EditPhotoModel
 
 @{
-    ViewData["Title"] = "Add a new photo";
+    ViewData["Title"] = "Edit a photo";
 }
 
 <head>
     <link href="~/css/addentity.css" rel="stylesheet" />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+
+        $(document).ready(function () {
+            $("#deleteBtn").click(function (e) {
+                e.preventDefault();
+                if (confirm("Are you sure you want to delete this photo?")) {
+                    $.ajax({
+                        url: $("#deleteForm").attr("action"),
+                        type: "POST",
+                        data: $("#deleteForm").serialize(),
+                        success: function () {
+                            // Перенаправлення після успішної відправки форми
+                            window.location.href = "/Photos/DeleteSuccess";
+                        },
+                        error: function (xhr, status, error) {
+                            // Обробка помилки відправки форми
+                            console.error("Помилка під час відправлення форми:", error);
+                        }
+                    });
+                }
+            });
+        });
+    </script>
 </head>
 
 <div class="row text">
     <div class="col-md-8 offset-2">
         <p>
-            <h1>Add New Photo</h1>
+            <h1>Edit a Photo</h1>
         </p>
         <div class="row">
             <div class="col-md-8 offset-2">
-                <form method="post" asp-page="/AddPhoto">
+                <form method="post" asp-page="/EditPhoto">
                     <div class="form-group text-center">
                         <img id="PhotoPreview" class="rounded-2" />
-                    </div>
-                    <div class="form-group">
-                        <label asp-for="PhotoUrl" class="control-label"></label>
-                        <input asp-for="PhotoUrl" class="form-control" />
-                        <span asp-validation-for="PhotoUrl" class="text-danger"></span>
                     </div>
                     <div class="form-group">
                         <label asp-for="Title" class="control-label"></label>
@@ -53,28 +72,19 @@
                         <span asp-validation-for="Status" class="text-danger"></span>
                     </div>
                     <div class="form-group">
-                        <input type="submit" value="Create" name="submit" class="btn-action" />
+                        <input type="submit" value="Update" name="submit" class="btn-action" />
                         <a class="btn btn-outline-secondary" asp-page="/Index">Back to Main Page</a>
                     </div>
                 </form>
+                <div class="row">
+                    <div class="col-md-8 offset-2">
+                        <form method="post" id="deleteForm" asp-page-handler="DeletePhoto">
+                            <input type="submit" value="Delete" id="deleteBtn" name="submit" class="btn btn-delete" />
+                        </form>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 </div>
 
-@section Scripts {
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/3.2.12/jquery.validate.unobtrusive.min.js"></script>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script>
-        $(document).ready(function () {
-            var output = document.getElementById('PhotoPreview');
-            output.src = $("#PhotoUrl").val();
-        });
-
-        $("#PhotoUrl").on("change", function () {
-            var output = document.getElementById('PhotoPreview');
-            output.src = $(this).val();
-        });
-    </script>
-}

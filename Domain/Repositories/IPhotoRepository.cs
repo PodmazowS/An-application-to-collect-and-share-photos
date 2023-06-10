@@ -13,7 +13,7 @@ namespace Domain.Repositories
         IEnumerable<Photo> GetAll();
         Task<Photo> GetPhotoByIdAsync(ObjectId photoId);
         Task<IEnumerable<Photo>> GetPhotosByUserIdAsync(ObjectId userId);
-        //Task<IEnumerable<Photo>> GetPhotosByAlbumIdAsync(ObjectId albumId); //klucz obcy
+        Task<IEnumerable<Photo>> GetPhotosByAlbumIdAsync(ObjectId albumId);
         Task CreatePhotoAsync(Photo photo);
         Task UpdatePhotoAsync(Photo photo);
         Task DeletePhotoAsync(ObjectId photoId);

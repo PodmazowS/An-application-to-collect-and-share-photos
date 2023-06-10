@@ -5,6 +5,7 @@
 }
 <head>
     <link href="~/css/profile.css" rel="stylesheet" />
+
 </head>
 <div class="profilepage">
     <div class="header">
@@ -14,6 +15,9 @@
         <div class="username">
             <p>@Model.UserProfile.UserName</p>
         </div>
+        <div class="albums">
+            <a asp-page="/Albums/ViewAlbums" asp-page-handler="UserAlbums" asp-route-userId="@Model.UserProfile.Id.ToString()">Albums</a>
+        </div>
     </div>
     <div class="profilesheet">
         @foreach (var photo in Model.UserPhotos)
@@ -22,18 +26,17 @@
             {
                 <div class="photo">
                     <a asp-page="/Photos/ViewPhoto" asp-route-photoId="@photo.Id" asp-route-userId="@Model.UserProfile.Id.ToString()">
-                    <img src="@photo.Url" alt="@photo.Title">
+                       @if (photo.Status == "Protected")
+                       {
+                            <img src="@photo.Url" alt="@photo.Title" oncontextmenu="return false;">
+                       }
+                       else
+                       {
+                           <img src="@photo.Url" alt="@photo.Title">
+                       }
                 </a>
             </div>
             }
-        <script>
-            var photoElement = document.querySelector('img[src="@photo.Url"]');
-            if ("@photo.Status" === "Protected") {
-                photoElement.addEventListener('contextmenu', function (e) {
-                    e.preventDefault();
-                });
-            }
-        </script>
         }
     </div>
 </div>

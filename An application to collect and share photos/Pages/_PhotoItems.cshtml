@@ -1,0 +1,32 @@
+﻿@model An_application_to_collect_and_share_photos.Pages.IndexModel
+
+<head>
+
+</head>
+
+@foreach (var photo in Model.Photos)
+{
+    var user = Model.Users.FirstOrDefault(u => u.Id == photo.UserId);
+    if (photo.Status == "Public" || photo.Status == "Protected" || User.IsInRole("Admin") || user.UserName == User.Identity.Name)
+    {
+        <div class="media">
+            <div class="profileicon">
+                <a asp-page="/Users/ProfilePage" asp-page-handler="UserPage" asp-route-userId="@user.Id.ToString()"> <img src="~/images/user.png" alt="profile">@user.UserName</a>
+            </div>
+            <div class="mediaphoto">
+                @if (photo.Status == "Protected")
+                {
+                        <img src="@photo.Url" alt="@photo.Title" oncontextmenu="return false;">
+                }
+                else
+                {
+                        <img src="@photo.Url" alt="@photo.Title">
+                }
+                <p>@photo.Description</p>
+            </div>
+            <div class="moreinfo">
+                <a asp-page="/Photos/ViewPhoto" asp-route-photoId="@photo.Id" asp-route-userId="@user.Id.ToString()">Info about this photo...</a>
+            </div>
+        </div>
+    }
+}

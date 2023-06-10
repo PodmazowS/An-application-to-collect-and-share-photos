@@ -16,7 +16,7 @@ namespace Domain.Services
 		public Task<Photo> GetPhotoByIdAsync(ObjectId photoId);
 
         public Task<IEnumerable<Photo>> GetPhotosByUserIdAsync(ObjectId userId);
-
+        public Task<IEnumerable<Photo>> GetPhotosByAlbumIdAsync(ObjectId albumId);
         public Task CreatePhotoAsync(Photo photo);
 
         public Task UpdatePhotoAsync(Photo photo);
