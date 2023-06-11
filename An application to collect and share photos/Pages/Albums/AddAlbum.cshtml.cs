@@ -8,6 +8,7 @@ using MongoDB.Bson;
 using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Authorization;
 using System.Data;
+using Microsoft.AspNetCore.Identity;
 
 namespace An_application_to_collect_and_share_photos.Pages
 {
@@ -17,8 +18,11 @@ namespace An_application_to_collect_and_share_photos.Pages
     {
 
         private readonly IAlbumService _albumService;
-        public AddAlbumModel(IAlbumService albumService)
+        private readonly UserManager<User> _userManager;
+
+        public AddAlbumModel(IAlbumService albumService, UserManager<User> userManager)
         {
+            _userManager = userManager;
             _albumService = albumService;
         }
 
@@ -43,10 +47,12 @@ namespace An_application_to_collect_and_share_photos.Pages
                 return Page();
             }
 
+            User user = await _userManager.GetUserAsync(User);
+
             var album = new Album
             {
                 Id = ObjectId.GenerateNewId(),
-                UserId = ObjectId.GenerateNewId(),
+                UserId = user.Id,
                 Title = Title,
                 Description = Description,
                 Status = Status,
@@ -56,7 +62,7 @@ namespace An_application_to_collect_and_share_photos.Pages
             await _albumService.CreateAlbumAsync(album);
 
             // Перенаправте користувача на іншу сторінку або повідомте про успішне додавання фото
-            return RedirectToPage("/Index");
+            return RedirectToPage("/Albums/AddSuccess");
         }
     }
 }

@@ -78,6 +78,8 @@ namespace An_application_to_collect_and_share_photos
             builder.Services.AddScoped<ICommentRepository, CommentRepository>();
             builder.Services.AddScoped<ICommentService, CommentService>();
 
+
+
             //Add Identity
             var mongoDbSettings = _configuration.GetSection(nameof(MongoDBSettings)).Get<MongoDBSettings>();
             builder.Services.AddIdentity<User, UserRole>()
@@ -93,6 +95,8 @@ namespace An_application_to_collect_and_share_photos
                 app.UseHsts();
             }
 
+
+
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 
@@ -103,8 +107,6 @@ namespace An_application_to_collect_and_share_photos
             app.UseAuthorization();
 
             app.MapRazorPages();
-
-
 
 
 

@@ -15,6 +15,7 @@ namespace Domain.Services
 
         public Task<Album> GetAlbumByIdAsync(ObjectId id);
 
+        public Task<IEnumerable<Album>> GetAlbumsByUserIdAsync(ObjectId userId);
 
         public Task CreateAlbumAsync(Album album);
 

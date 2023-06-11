@@ -1,16 +1,16 @@
 ﻿@page
-
-@model AddAlbumModel
-
+@model An_application_to_collect_and_share_photos.Pages.Albums.EditAlbumModel
 @{
-    ViewData["Title"] = "Add Album";
+}
+@{
+    ViewData["Title"] = "Edit Album";
 }
 
 
 <head>
     <link href="~/css/addentity.css" rel="stylesheet" />
 </head>
-<h1>Add Album</h1>
+<h1>Edit Album</h1>
 
 <form method="post">
     <div class="form-group">
@@ -32,6 +32,6 @@
         <span asp-validation-for="Status" class="text-danger"></span>
     </div>
 
-    <input type="submit" value="Create" name="submit" class="btn-action" />
-    <a class="btn btn-outline-secondary" asp-page="/Index">Back to Main Page</a>
+    <input asp-route-userId="@Model.UserProfile.Id.ToString()" type="submit" value="Update" name="submit" class="btn-action" />
+    <a asp-page="/Albums/ViewAlbums" asp-page-handler="UserAlbums" asp-route-userId="@Model.UserProfile.Id.ToString()" class="return-to-user">Return to @Model.UserProfile.UserName</a>
 </form>

@@ -30,6 +30,12 @@ namespace Infrastructure.Data
             var photos = await _photoCollection.Find(filter).ToListAsync();
             return photos;
         }
+        public async Task<IEnumerable<Photo>> GetPhotosByAlbumIdAsync(ObjectId albumId)
+        {
+            var filter = Builders<Photo>.Filter.Eq(p => p.AlbumId, albumId);
+            var photos = await _photoCollection.Find(filter).ToListAsync();
+            return photos;
+        }
 
         public async Task UpdatePhotoAsync(Photo photo)
         {

@@ -1,0 +1,36 @@
+﻿@page
+@model An_application_to_collect_and_share_photos.Pages.Albums.ViewAlbumsPageModel
+@{
+}
+@{
+    ViewData["Title"] = "Profile";
+}
+<head>
+    <link href="~/css/profile.css" rel="stylesheet" />
+</head>
+<div class="profilepage">
+    <div class="header">
+        <div class="profileimg">
+            <img src="~/images/user.png" alt="profilephoto">
+        </div>
+        <div class="username">
+            <p>@Model.UserProfile.UserName</p>
+        </div>
+        <div class="albums">
+            <a asp-page="/Users/ProfilePage" asp-page-handler="UserPage" asp-route-userId="@Model.UserProfile.Id.ToString()">Photos</a>
+        </div>
+    </div>
+    <div class="profilesheet">
+        @foreach (var album in Model.UserAlbums)
+        {
+            if (album.Status == "Public" || User.IsInRole("Admin") || User.Identity.IsAuthenticated && Model.currentUser.Id == Model.UserProfile.Id)
+            {
+                <div class="album">
+                    <a asp-page="/Albums/ViewAlbum" asp-page-handler="UserPage" asp-route-albumId="@album.Id" asp-route-userId="@Model.UserProfile.Id.ToString()">
+                        <h2>@album.Title</h2>
+                    </a>
+                </div>
+            }
+        }
+    </div>
+</div>

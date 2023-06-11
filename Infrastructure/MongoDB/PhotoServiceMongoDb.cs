@@ -79,6 +79,11 @@ namespace Infrastructure.MongoDB
                 ).FirstOrDefaultAsync();
         }
 
+        public Task<IEnumerable<Photo>> GetPhotosByAlbumIdAsync(ObjectId albumId)
+        {
+            throw new NotImplementedException();
+        }
+
         public async Task<IEnumerable<Photo>> GetPhotosByUserIdAsync(ObjectId userId)
         {
             var photos = await _photos

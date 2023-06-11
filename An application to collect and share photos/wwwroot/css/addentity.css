@@ -15,8 +15,13 @@
     width: 100%;
 }
 
-.btn {
-    margin-right: 10px;
+.btn-action {
+    background-color: dodgerblue;
+    color: white;
+    cursor: pointer;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 0;
 }
 
     .btn.btn-outline-secondary {
@@ -36,6 +41,7 @@
 .about {
     display: none;
 }
+
 
 @media (max-width: 767px) {
     .col-md-8.offset-2 {

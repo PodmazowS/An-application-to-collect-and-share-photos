@@ -1,0 +1,46 @@
+﻿@page
+@model An_application_to_collect_and_share_photos.Pages.Albums.AddPhotostoAlbumModel
+@{
+}
+<head>
+    <link href="~/css/profile.css" rel="stylesheet" />
+
+</head>
+<div class="profilepage">
+    <form method ="post" asp-page="Albums/AddPhotosToAlbum" >
+    <div class="header">
+        <div class="pick-options">
+                <input asp-page-handler="AddPhotos" asp-route-userId="@Model.UserProfile.Id.ToString()" type="submit" value="Add Photos" name="submit" class="add-photo-button">
+        </div>
+    </div>
+    <div class="profilesheet">
+        
+        @foreach (var photo in Model.UserPhotos)
+        {
+            <div class="photoitem">
+                <div class="photoitem-border">
+                <div class="photoitem-photo">
+                    <a asp-page="/Photos/ViewPhoto" asp-route-photoId="@photo.Id" asp-route-userId="@Model.UserProfile.Id.ToString()">
+                        @if (photo.Status == "Protected")
+                        {
+                            <img src="@photo.Url" alt="@photo.Title" oncontextmenu="return false;">
+                        }
+                        else
+                        {
+                            <img src="@photo.Url" alt="@photo.Title">
+                        }
+                    </a>
+                </div>
+                </div>
+                <div class="photoitem-title">
+                    @photo.Title
+                </div>
+                <div class="photoitem-checkbox">
+                     <input type="checkbox" name="selectedPhotos" value="@photo.Id">
+                </div>
+            </div>
+        }
+        
+    </div>
+    </form>
+</div>

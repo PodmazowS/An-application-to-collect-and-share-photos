@@ -20,7 +20,7 @@ namespace An_application_to_collect_and_share_photos.Pages
 
         public IEnumerable<Photo> UserPhotos { get; set; }
         public User UserProfile { get; set; }
-
+        public User currentUser { get; set; }
         public async Task<IActionResult> OnGetUserPage(string userId)
         {
 
@@ -30,6 +30,8 @@ namespace An_application_to_collect_and_share_photos.Pages
             {
                 return NotFound();
             }
+            currentUser = await _userManager.GetUserAsync(User);
+
             var reversedPhotos = await _photoService.GetPhotosByUserIdAsync(UserProfile.Id);
 
             UserPhotos = reversedPhotos.Reverse();
@@ -41,6 +43,8 @@ namespace An_application_to_collect_and_share_photos.Pages
 
             UserProfile = await _userManager.GetUserAsync(User);
             var reversedPhotos = await _photoService.GetPhotosByUserIdAsync(UserProfile.Id);
+
+            currentUser = await _userManager.GetUserAsync(User);
 
             UserPhotos = reversedPhotos.Reverse();
 

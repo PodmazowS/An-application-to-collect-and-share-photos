@@ -1,39 +1,54 @@
 ﻿@page
-@model IndexModel
+@model An_application_to_collect_and_share_photos.Pages.IndexModel
 @{
     ViewData["Title"] = "Home page";
 }
 
 <!--Sample Index page-->
-<div id="photo-container">
-    @foreach (var photo in Model.Photos)
-    {
-        var user = Model.Users.FirstOrDefault(u => u.Id == photo.UserId);
-        if (photo.Status == "Public" || photo.Status == "Protected" || User.IsInRole("Admin") || user.UserName == User.Identity.Name)
-        {
-            <div class="media">
-                <div class="profileicon">
-                    <a asp-page="/Users/ProfilePage" asp-page-handler="UserPage" asp-route-userId="@user.Id.ToString()">
-                        <img src="~/images/user.png" alt="profile">@user.UserName
-                    </a>
-                </div>
-                <div class="mediaphoto">
-                    <img src="@photo.Url" alt="@photo.Title">
-                    <p>@photo.Description</p>
-                </div>
-                <div class="moreinfo">
-                    <a asp-page="/Photos/ViewPhoto" asp-route-photoId="@photo.Id" asp-route-userId="@user.Id.ToString()">Info about this photo...</a>
-                </div>
-            </div>
-            <script>
-                var photoElement = document.querySelector('img[src="@photo.Url"]');
-                if ("@photo.Status" === "Protected") {
-                    photoElement.addEventListener('contextmenu', function (e) {
-                        e.preventDefault();
-                    });
-                }
-            </script>
-        }
-    }
+<div id="photoContainer">
+    @await Html.PartialAsync("_PhotoItems", Model)
 </div>
 
+<button id="loadMoreBtn" class="load-more-buttton">Load More</button>
+
+@section Scripts {
+    <script>
+        
+        var itemsPerPage = 5;
+        var numberOfPage = 2;
+        var loading = false;
+        var allPhotosLoaded = false;
+
+        function loadMorePhotos() {
+            if (loading || allPhotosLoaded) return;
+
+            loading = true;
+
+            var url = '/Index?handler=LoadMore';
+
+            var data = {
+                numberOfPage: numberOfPage,
+                itemsPerPage: itemsPerPage
+            };
+
+            $.get(url, data, function (data) {
+                if (data.trim().length === 0) {
+                    allPhotosLoaded = true;
+                    $("#loadMoreBtn").hide();
+                } else {
+                    $("#photoContainer").append(data);
+                    numberOfPage++;
+                }
+
+                loading = false;
+            });
+        }
+
+
+        $(document).ready(function () {
+            $("#loadMoreBtn").click(function () {
+                loadMorePhotos();
+            });
+        });
+    </script>
+}
