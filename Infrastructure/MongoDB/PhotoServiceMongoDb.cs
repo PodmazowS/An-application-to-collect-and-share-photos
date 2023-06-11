@@ -24,6 +24,31 @@ namespace Infrastructure.MongoDB
             throw new NotImplementedException();
         }
 
+        public async Task UpdatePhotoAsync(Photo photo)
+        {
+            try
+            {
+                var filter = Builders<Photo>.Filter.Eq(p => p.Id, photo.Id);
+                var update = Builders<Photo>.Update
+                    .Set(p => p.Url, photo.Url)
+                    .Set(p => p.Title, photo.Title)
+                    .Set(p => p.Description, photo.Description)
+                    .Set(p => p.CameraName, photo.CameraName)
+                    .Set(p => p.Status, photo.Status)
+                    .Set(p => p.UploadDate, photo.UploadDate)
+                    .Set(p => p.Tag, photo.Tag)
+                    .Set(p => p.UserId, photo.UserId);
+
+                await _photos.UpdateOneAsync(filter, update);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"An error occurred while updating the photo with ID {photo.Id}: {ex.Message}");
+                throw;
+            }
+        }
+
+
         public Task DeletePhotoAsync(ObjectId photoId)
         {
             try
@@ -92,10 +117,6 @@ namespace Infrastructure.MongoDB
 
             return photos;
         }
-
-        public Task UpdatePhotoAsync(Photo photo)
-        {
-            throw new NotImplementedException();
-        }
+        
     }
 }

@@ -75,6 +75,41 @@ namespace Infrastructure.Controller
                 return StatusCode(500, "An error occurred while deleting the photo.");
             }
         }
+        [HttpPut("{photoId}")]
+        public async Task<IActionResult> UpdatePhoto(string photoId, [FromBody] PhotoDto photoDto)
+        {
+            try
+            {
+                if (!ObjectId.TryParse(photoId, out ObjectId objectId))
+                {
+                    return BadRequest("Invalid photo ID format.");
+                }
+
+                // Create a new photo object with the updated properties
+                var updatedPhoto = new Photo
+                {
+                    Id = objectId,
+                    Url = photoDto.Url,
+                    Title = photoDto.Title,
+                    Description = photoDto.Description,
+                    CameraName = photoDto.CameraName,
+                    Status = photoDto.Status,
+                    UploadDate = photoDto.UploadDate,
+                    Tag = photoDto.Tag,
+                    UserId = objectId
+                };
+
+                // Call the update method in the service
+                await _service.UpdatePhotoAsync(updatedPhoto);
+
+                return Ok($"Photo with ID {photoId} has been updated.");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"An error occurred while updating the photo: {ex.Message}");
+                return StatusCode(500, "An error occurred while updating the photo.");
+            }
+        }
         
     }
 }
