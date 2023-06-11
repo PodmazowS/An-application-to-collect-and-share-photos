@@ -14,8 +14,9 @@ namespace Domain.Services
     public interface ICommentService
     {
 
-        public Task CreateCommentAsync(ObjectId userId, ObjectId photoId, string commentText, DateTime date, Comment comment);
+        public Task CreateCommentAsync(Comment comment);
         public Task DeleteCommentAsync(Comment comment);
-
+        Task<IEnumerable<Comment>> GetCommentsForPhotoAsync(ObjectId photoId);
+        Task<Comment> GetCommentByIdAsync(ObjectId commentId);
     }
 }

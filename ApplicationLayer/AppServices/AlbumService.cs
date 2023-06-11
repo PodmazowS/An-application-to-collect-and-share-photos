@@ -19,9 +19,9 @@ namespace ApplicationLayer.AppServices
             _albumRepository = albumRepository;
         }
 
-        public async Task<IEnumerable<Album>> GetAllAlbums()
+        public IEnumerable<Album> GetAllAlbums()
         {
-            return await _albumRepository.GetAll();
+            return _albumRepository.GetAll();
         }
 
         public async Task<Album> GetAlbumByIdAsync(ObjectId id)

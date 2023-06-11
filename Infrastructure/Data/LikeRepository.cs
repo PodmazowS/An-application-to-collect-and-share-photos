@@ -48,9 +48,10 @@ namespace Infrastructure.Data
 
         public async Task<int> GetLikeCountForPhotoAsync(ObjectId photoId)
         {
-            var filter = Builders<Like>.Filter.Eq(x => x.PhotoId, photoId);
+            var filter = Builders<Like>.Filter.Eq("photoid", photoId);
             var count = await _likeCollection.CountDocumentsAsync(filter);
             return (int)count;
         }
+
     }
 }

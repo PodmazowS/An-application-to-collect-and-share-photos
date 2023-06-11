@@ -14,12 +14,31 @@ namespace Domain.Models
         public ObjectId Id { get; set; }
         [BsonElement("userid")]
         public ObjectId UserId { get; set; }
+        [BsonElement("username")]
+        public string UserName { get; set; }
         [BsonElement("photoid")]
         public ObjectId PhotoId { get; set; }
         [BsonElement("comment")]
         public string CommentText { get;set; }
         [BsonElement("date")]
         public DateTime Date { get; set; }
+
+        public Comment(ObjectId id, ObjectId userId, string userName, ObjectId photoId, string commentText,
+            DateTime date)
+        {
+            Id = id;
+            UserId = userId;
+            UserName = userName;
+            PhotoId = photoId;
+            CommentText = commentText;
+            Date = date;
+        }
+
+        public Comment()
+        {
+            
+        }
+
 
 
     }

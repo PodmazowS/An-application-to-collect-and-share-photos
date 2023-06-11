@@ -1,0 +1,67 @@
+﻿.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.photo {
+    display: block;
+    margin: 0 auto;
+    width: 100%;
+    height: auto;
+}
+
+.info {
+    margin-top: 20px;
+}
+
+.likes {
+    margin-top: 20px;
+    text-align: left;
+}
+
+.like-button,
+.delete-button,
+.comment-button {
+    padding: 10px 20px;
+    background-color: #f0f0f0;
+    border: none;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.comments {
+    margin-top: 20px;
+}
+
+.comment {
+    position: relative;
+    margin-bottom: 10px;
+}
+
+    .comment p {
+        margin-bottom: 5px;
+    }
+
+.comment-date {
+    color: #888;
+    font-size: 12px;
+}
+
+.delete-button{
+    position: absolute;
+    top: 0;
+    right: 0;
+    padding: 5px 10px;
+    background-color: #f0f0f0;
+    border: none;
+    cursor: pointer;
+    font-size: 12px;
+    color: #888;
+}
+.nav{
+    display:none;
+}
+.about{
+    display:none;
+}

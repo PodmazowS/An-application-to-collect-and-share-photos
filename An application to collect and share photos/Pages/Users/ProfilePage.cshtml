@@ -12,17 +12,28 @@
             <img src="~/images/user.png" alt="profilephoto">
         </div>
         <div class="username">
-            <p>@User.Identity.Name</p>
+            <p>@Model.UserProfile.UserName</p>
         </div>
     </div>
     <div class="profilesheet">
         @foreach (var photo in Model.UserPhotos)
         {
-            <div class="photo">
-                <a href="#" alt="details">
+            if (photo.Status == "Public" || photo.Status == "Protected" || User.IsInRole("Admin"))
+            {
+                <div class="photo">
+                    <a asp-page="/Photos/ViewPhoto" asp-route-photoId="@photo.Id" asp-route-userId="@Model.UserProfile.Id.ToString()">
                     <img src="@photo.Url" alt="@photo.Title">
                 </a>
             </div>
+            }
+        <script>
+            var photoElement = document.querySelector('img[src="@photo.Url"]');
+            if ("@photo.Status" === "Protected") {
+                photoElement.addEventListener('contextmenu', function (e) {
+                    e.preventDefault();
+                });
+            }
+        </script>
         }
     </div>
 </div>

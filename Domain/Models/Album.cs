@@ -22,6 +22,20 @@ namespace Domain.Models
         [BsonElement("description")]
         public string? Description { get; set; }
 
+        public Album(ObjectId id, string title, string status, ObjectId userId, string description)
+        {
+            Id = id;
+            Title = title;
+            Status = status;
+            UserId = userId;
+            Description = description;
+        }
+
+        public Album()
+        {
+            
+        }
+
 
 
     }

@@ -18,7 +18,7 @@ namespace Domain.Repositories
         Task<IEnumerable<Comment>> GetAll();
 
         //GetById
-        Comment GetById(ObjectId id);
+        Task<Comment> GetById(ObjectId id);
 
         //Update
         //Comment Update(ObjectId id, Comment newComment);
@@ -28,5 +28,7 @@ namespace Domain.Repositories
 
         Task CreateCommentAsync(Comment comment);
         Task DeleteCommentAsync(Comment comment);
+
+        Task<IEnumerable<Comment>> GetCommentsForPhoto(ObjectId photoId);
     }
 }

@@ -1,22 +1,31 @@
-﻿using MongoDB.Bson;
+﻿using Domain.Models;
+using MongoDB.Bson;
 
 namespace ApplicationLayer.DTO;
 
 public class AlbumDto
 {
-    public ObjectId Id { get; set; }
+    public string Id { get; set; }
     public string Title { get; set; }
     public string Status { get; set; }
-    public ObjectId UserId { get; set; }
+    public string UserId { get; set; }
     public string? Description { get; set; }
 
-    public AlbumDto(ObjectId id, string title, string status, ObjectId userId, string description)
+    public static AlbumDto of(Album album)
     {
-        Id = id;
-        Title = title;
-        Status = status;
-        UserId = userId;
-        Description = description;
+        if (album is null)
+        {
+            return null;
+        }
+
+        return new AlbumDto()
+        {
+            Id = album.Id.ToString(),
+            Title = album.Title,
+            Description = album.Description,
+            Status = album.Status,
+            UserId = album.UserId.ToString()
+        };
     }
     
     

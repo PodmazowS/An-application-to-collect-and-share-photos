@@ -20,7 +20,7 @@ public class CommentService : ICommentService
     {
         _commmentRepository = commmentRepository;
     }
-    public async Task CreateCommentAsync(ObjectId userId, ObjectId photoId, string commentText, DateTime date, Comment comment)
+    public async Task CreateCommentAsync(Comment comment)
     {
         //var comment = new Comment
         //{
@@ -36,5 +36,16 @@ public class CommentService : ICommentService
     public async Task DeleteCommentAsync(Comment comment)
     {
         await _commmentRepository.DeleteCommentAsync(comment);
+    }
+
+    public async Task<Comment> GetCommentByIdAsync(ObjectId commentId)
+    {
+        return await _commmentRepository.GetById(commentId);
+    }
+
+    public async Task<IEnumerable<Comment>> GetCommentsForPhotoAsync(ObjectId photoId)
+    {
+        var Comments = await _commmentRepository.GetCommentsForPhoto(photoId);
+        return Comments;
     }
 }

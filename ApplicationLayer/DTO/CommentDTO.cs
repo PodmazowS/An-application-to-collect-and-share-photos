@@ -5,25 +5,33 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Domain.Models;
 
 namespace ApplicationLayer.DTO
 {
-    public  class CommentDTO
+    public class CommentDto
     {
-        public ObjectId Id { get; set; }
-        public ObjectId UserId { get; set; }
-        public ObjectId PhotoId { get; set; }
+        public string Id { get; set; }
+        public string UserId { get; set; }
+        public string PhotoId { get; set; }
         public string CommentText { get; set; }
         public DateTime Date { get; set; }
 
-        public CommentDTO(ObjectId id, ObjectId userId, ObjectId photoId, string commentText, DateTime date)
+        public static CommentDto of(Comment comment)
         {
-            Id = id;
-            UserId = userId;
-            PhotoId = photoId;
-            CommentText = commentText;
-            Date = date;
+            if (comment is null)
+            {
+                return null;
+            }
 
+            return new CommentDto()
+            {
+                Id = comment.Id.ToString(),
+                UserId = comment.UserId.ToString(),
+                PhotoId = comment.PhotoId.ToString(),
+                CommentText = comment.CommentText,
+                Date = comment.Date
+            };
         }
     }
 }

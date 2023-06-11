@@ -20,7 +20,7 @@ namespace Infrastructure.Data
         }
         public async Task<Photo> GetPhotoByIdAsync(ObjectId photoId)
         {
-            var filter = Builders<Photo>.Filter.Eq("_photoId", photoId);
+            var filter = Builders<Photo>.Filter.Eq("_id", photoId);
             var photo = await _photoCollection.Find(filter).FirstOrDefaultAsync();
             return photo;
         }

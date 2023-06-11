@@ -72,6 +72,12 @@ namespace An_application_to_collect_and_share_photos
             builder.Services.AddScoped<IUserRepository, UserRepository>();
             builder.Services.AddScoped<IUserService, UserService>();
 
+            builder.Services.AddScoped<ILikeRepository, LikeRepository>();
+            builder.Services.AddScoped<ILikeService, LikeService>();
+
+            builder.Services.AddScoped<ICommentRepository, CommentRepository>();
+            builder.Services.AddScoped<ICommentService, CommentService>();
+
             //Add Identity
             var mongoDbSettings = _configuration.GetSection(nameof(MongoDBSettings)).Get<MongoDBSettings>();
             builder.Services.AddIdentity<User, UserRole>()

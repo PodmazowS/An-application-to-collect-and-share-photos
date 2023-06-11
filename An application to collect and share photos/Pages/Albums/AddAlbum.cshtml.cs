@@ -6,10 +6,13 @@ using System.Threading.Tasks;
 using Domain.Services;
 using MongoDB.Bson;
 using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Authorization;
+using System.Data;
 
 namespace An_application_to_collect_and_share_photos.Pages
 {
     [BindProperties]
+    [Authorize(Roles = "Admin, User")]
     public class AddAlbumModel : PageModel
     {
 

@@ -32,7 +32,7 @@
         }
         @if (User.Identity.IsAuthenticated)
         {
-        <a asp-page="Users/ProfilePage">
+            <a asp-page="Users/ProfilePage">
             <div class="menuitem">
                 <div class="material-icons-outlined">person</div><div class="iconsnames">Profile</div>
             </div>
@@ -59,7 +59,7 @@
         {
             <a asp-page="Users/AssignRole">
             <div class="menuitem">
-                <div class="material-icons-outlined">settings-applications</div><div class="iconsnames">Roles</div>
+                <div class="material-icons-outlined">settings</div><div class="iconsnames">Roles</div>
             </div>
         </a>
         }

@@ -1,0 +1,68 @@
+﻿@page
+@model An_application_to_collect_and_share_photos.Pages.Photos.ViewPhotoModel
+
+<head>
+    <title>Photo</title>
+    <link rel="stylesheet" type="text/css" href="~/css/viewphoto.css">
+</head>
+
+    <div class="container">
+        <img src="@Model.photo.Url" alt="@Model.photo.Title" class="photo">
+        <div class="info">
+            <h2>@Model.photo.Title</h2>
+            <p>Author: @Model.user</p>
+            <p>Description: @Model.photo.Description</p>
+            <p>Camera Name: @Model.photo.CameraName</p>
+            <p>Status: @Model.photo.Status</p>
+            <p>Upload Date: @Model.photo.UploadDate</p>
+            <p>Tag: @Model.photo.Tag</p>
+        </div>
+
+        @if (User.Identity.IsAuthenticated)
+        {
+            <div class="likes">
+                <form method="post" asp-page-handler="Like" asp-route-photoId="@Model.photo.Id">
+                    <button type="submit" class="like-button">Like <b>@Model.likecount</b></button>
+                </form>
+            </div>
+
+            <div class="comments">
+                <h3>Comments</h3>
+                @if (Model.comments != null)
+                {
+                    foreach (var comment in Model.comments)
+                    {
+                        <div class="comment">
+                            <p>@comment.UserName: @comment.CommentText</p>
+                            <p class="comment-date">@comment.Date</p>
+                            @if(@Model.currentUser.Id == @comment.UserId || User.IsInRole("Admin"))
+                            {   
+                                <form method="post" asp-page-handler="DeleteComment" asp-route-commentId="@comment.Id" asp-route-photoId="@Model.photo.Id">
+                                    <button type="submit" class="delete-button">Delete</button>
+                                </form>
+                            }
+                        </div>
+                    }
+                }
+            </div>
+
+            <div class="add-comment">
+                <form method="post" asp-page-handler="Comment" asp-route-photoId="@Model.photo.Id">
+                    <h3>Write a comment</h3>
+                    <textarea name="commentText">@Model.commentText</textarea>
+                    <button type="submit" class="comment-button">Send</button>
+                </form>
+                <div class="col-md-12 alert alert-danger">
+                    <span>@TempData["Error"]</span>
+                </div>
+            </div>
+        }
+    </div>
+    <script>
+        var photoElement = document.querySelector('img[src="@Model.photo.Url"]');
+        if ("@Model.photo.Status" === "Protected") {
+            photoElement.addEventListener('contextmenu', function (e) {
+                e.preventDefault();
+            });
+        }
+    </script>
