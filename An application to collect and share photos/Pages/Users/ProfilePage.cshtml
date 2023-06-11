@@ -22,7 +22,7 @@
     <div class="profilesheet">
         @foreach (var photo in Model.UserPhotos)
         {
-            if (photo.Status == "Public" || photo.Status == "Protected" || User.IsInRole("Admin"))
+            if (photo.Status == "Public" || photo.Status == "Protected" || User.IsInRole("Admin") || User.Identity.IsAuthenticated && Model.UserProfile.Id == Model.currentUser.Id)
             {
                 <div class="photo">
                     <a asp-page="/Photos/ViewPhoto" asp-route-photoId="@photo.Id" asp-route-userId="@Model.UserProfile.Id.ToString()">

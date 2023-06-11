@@ -4,7 +4,15 @@
 }
 <head>
     <title>Photos were Added</title>
+    <link href="~/css/success.css" rel="stylesheet" />
 </head>
 <body>
-    <h1>Your Have Successfully added photos to your album!</h1>
+    <div class="successful">
+       <h1>Your Have Successfully Added Photos to Album!</h1>
+    </div>
+    <div class="redirect-to-index-border">
+    <a asp-page="/Index" class="redirect-to-index">
+        <p>Return to Main Page</p>
+    </a>
+    </div>
 </body>

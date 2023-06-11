@@ -261,7 +261,7 @@ p {
     width:75vw;
     border:1px solid gray;
     justify-content:flex-start;
-    height:12vw;
+    height:15vw;
 }
 .photoitem-border {
     padding: 5px;
@@ -303,6 +303,40 @@ p {
 .return-to-user{
     padding:7px;
 }
+.photo-filter {
+    font-family: 'Chivo Mono',monospace;
+    float:left;
+    border: 1px solid #f0f0f0;
+    padding: 10px;
+    margin-top:10px;
+    width: 95%;
+    text-align: center;
+    margin-bottom:0px;
+}
+
+.successful {
+    border: 1px solid black;
+    background-color: green;
+    text-align: center;
+    color:white;
+    margin:5%;
+}
+.redirect-to-index{
+    display:inline-block;
+    border:1px solid black;
+    margin:5%;
+}
+.redirect-to-index-border{
+    border: 1px solid gray;
+    background-color:#f0f0f0;
+    margin:5%;
+    text-align:center;
+}
+.redirect-to-index:hover {
+    background-color: gray;
+    color: white;
+}
+
 @media (max-width:1200px) {
     .iconsnames {
         display: none;

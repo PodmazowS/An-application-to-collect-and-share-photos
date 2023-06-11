@@ -23,7 +23,7 @@
     <div class="profilesheet">
         @foreach (var album in Model.UserAlbums)
         {
-            if (album.Status == "Public" || User.IsInRole("Admin") || Model.currentUser.Id == Model.UserProfile.Id)
+            if (album.Status == "Public" || User.IsInRole("Admin") || User.Identity.IsAuthenticated && Model.currentUser.Id == Model.UserProfile.Id)
             {
                 <div class="album">
                     <a asp-page="/Albums/ViewAlbum" asp-page-handler="UserPage" asp-route-albumId="@album.Id" asp-route-userId="@Model.UserProfile.Id.ToString()">

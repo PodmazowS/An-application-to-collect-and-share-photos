@@ -31,10 +31,7 @@ namespace An_application_to_collect_and_share_photos.Pages.Albums
                 return NotFound();
             }
             currentUser = await _userManager.GetUserAsync(User);
-            if(currentUser == null)
-            {
-                return NotFound();
-            }
+
             var reversedAlbums = await _albumService.GetAlbumsByUserIdAsync(UserProfile.Id);
 
             UserAlbums = reversedAlbums.Reverse();

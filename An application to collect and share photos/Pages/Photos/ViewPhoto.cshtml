@@ -30,13 +30,21 @@
 
         @if (User.Identity.IsAuthenticated)
         {
+            @if (!Model.isCurrentUserOwner)
+            {
             <div class="likes">
                 <form method="post" asp-page-handler="Like" asp-route-photoId="@Model.photo.Id">
                     <button type="submit" class="like-button">Like <b>@Model.likecount</b></button>
                 </form>
             </div>
-
-            <div class="comments">
+            }
+            else
+            {
+            <div class="likes">
+				<button class="like-button">Like <b>@Model.likecount</b></button>
+            </div>
+            }
+        <div class="comments">
                 <h3>Comments</h3>
                 @if (Model.comments != null)
                 {

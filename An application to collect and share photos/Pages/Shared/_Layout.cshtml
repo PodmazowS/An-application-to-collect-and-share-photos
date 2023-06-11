@@ -69,11 +69,18 @@
             @RenderBody()
         </main>
 
-        <footer>
+        <footer><form method="get" asp-page="Index">
             <div class="nav">
-                <input type="text" placeholder="Search post or user...">
+                    <select name="filter" class="photo-filter">
+                        <option value="Title">Title</option>
+                        <option value="Description">Description</option>
+                        <option value="CameraName">Camera Name</option>
+                        <option value="Tag">Tag</option>
+                    </select>
+                <input name="searchQuery" type="text" placeholder="Search post or user...">
                 <button type="submit">Go</button>
-            </div>
+            </div></form>
+
             <p class="about">
                 &copy; 2023 <a asp-area="" asp-page="/Privacy">Privacy</a>
             <p>
