@@ -68,7 +68,6 @@ namespace An_application_to_collect_and_share_photos.Pages
 
         public IActionResult OnGetLoadMore(int itemsPerPage,int numberOfPage)
         { 
-            Console.WriteLine($"{numberOfPage} {itemsPerPage}");
             var skip = (numberOfPage - 1) * itemsPerPage;
             var photos = _photoService.GetAll().Reverse().Skip(skip).Take(itemsPerPage).ToList();
             var users = _userManager.Users.ToList();
