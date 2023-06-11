@@ -57,7 +57,7 @@
         }
         @if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
         {
-            <a asp-page="Users/AssignRole">
+            <a asp-page="Users/AssignRole" data-page-url="/Users/AssignRole">
             <div class="menuitem">
                 <div class="material-icons-outlined">settings</div><div class="iconsnames">Roles</div>
             </div>
