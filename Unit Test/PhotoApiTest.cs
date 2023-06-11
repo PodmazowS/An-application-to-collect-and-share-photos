@@ -14,6 +14,7 @@ using Domain.Models;
 using Domain.Services;
 using Microsoft.AspNetCore.Mvc;
 using Infrastructure.MongoDB;
+using ApplicationLayer.DTO;
 
 namespace Unit_Test
 {
@@ -44,14 +45,14 @@ namespace Unit_Test
             var result = await _client.GetFromJsonAsync<List<PhotoDto>>("/api/PhotoControllerMongoDb");
 
             //Assert
-            Assert.Equal(12, result.Count);//Equal(9, -   count photos in Db
+            Assert.Equal(5, result.Count);//Equal(9, -   count photos in Db
         }
 
 
 
 
         [Fact]//it's correct
-        public async void GetShouldReturnOkStatus()
+        public async void GetShouldReturnOkStatusForPhoto()
         {
 
             //await using var application = new WebApplicationFactory<Program>();
@@ -67,15 +68,20 @@ namespace Unit_Test
 
 
 
-            /*
+        
+        /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+        /*    
+
             [Fact]
             public async Task GetPhotoByIdAsync_WithValidId_ReturnsPhotoDto()
             {
                 // Arrange
                 var validId = ObjectId.GenerateNewId();
-                var photo = new Photo
+
+                var photo = new Photo//Kiedy wchodzimy Object Photo wyskakuje błędy
                 {
-                    Id = validId,// 
+                    Id = validId,//!
                     Url = "https://example.com/photo.jpg",
                     Title = "Sample Photo",
                     Description = "This is a sample photo",
@@ -83,7 +89,7 @@ namespace Unit_Test
                     Status = "Active",
                     UploadDate = DateTime.UtcNow,
                     Tag = "Sample",
-                    UserId = ObjectId.GenerateNewId()//
+                    UserId = ObjectId.GenerateNewId()//!
                 };
 
                 var mockService = new Mock<PhotoServiceMongoDb>();
@@ -98,7 +104,7 @@ namespace Unit_Test
                 var okResult = Assert.IsType<OkObjectResult>(result);
                 var photoDto = Assert.IsType<PhotoDto>(okResult.Value);
 
-                Assert.Equal(photo.Id, photoDto.Id);
+                Assert.Equal(photo.Id.ToString(), photoDto.Id);
                 Assert.Equal(photo.Url, photoDto.Url);
                 Assert.Equal(photo.Title, photoDto.Title);
                 Assert.Equal(photo.Description, photoDto.Description);
@@ -106,11 +112,11 @@ namespace Unit_Test
                 Assert.Equal(photo.Status, photoDto.Status);
                 Assert.Equal(photo.UploadDate, photoDto.UploadDate);
                 Assert.Equal(photo.Tag, photoDto.Tag);
-                Assert.Equal(photo.UserId, photoDto.UserId);
+                Assert.Equal(photo.UserId.ToString(), photoDto.UserId);
             }
-            */
+            
 
-
+        */
 
             //dont work
             /*
