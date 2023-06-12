@@ -70,21 +70,24 @@ namespace Unit_Test
         }
 
 
-       
+
+
+        //////////////////////////////////////////////////////////////////////////////////////////////////////
+        //FindById
 
         //FindById - X
         [Fact]
-        public async Task Get_Object_Returns_Success()
+        public async Task Get_Object_Returns_SuccessForFindById()
         {
             // Arrange
             //int objectId = 1; // Замініть на ідентифікатор існуючого об'єкта
 
             // Arrange
-            var validId = ObjectId.GenerateNewId();
+            var id = ObjectId.GenerateNewId();
 
             var photo = new Photo//Kiedy wchodzimy Object Photo wyskakuje błędy
             {
-                Id = validId,//!
+                Id = id,//!
                 Url = "https://example.com/photo.jpg",
                 Title = "Sample Photo",
                 Description = "This is a sample photo",
@@ -96,7 +99,7 @@ namespace Unit_Test
             };
 
             // Act
-            var result  = await _client.GetAsync($"/api/PhotoControllerMongoDb/{validId}");
+            var result = await _client.GetAsync($"/api/PhotoControllerMongoDb/{id}");
 
             // Assert
             Assert.Equal(HttpStatusCode.OK, result.StatusCode);
@@ -117,19 +120,13 @@ namespace Unit_Test
         }
 
 
-        //GetPhotosByUserId_ReturnsOkResult - x
+        //////////////////////////////////////////////////////////////////////////////////////////////////////
+        //GetPhotosByUserId
 
-        private readonly Mock<IPhotoService> _photoServiceMock;
-        private readonly PhotoControllerMongoDb _photoController;
 
-        public PhotoControllerTests()
-        {
-            _photoServiceMock = new Mock<IPhotoService>();
-            _photoController = new PhotoControllerMongoDb(_photoServiceMock.Object);
-        }
-
+        //GetPhotosByUserId_ReturnsCorrectPhotos - X
         [Fact]
-        public async Task GetPhotosByUserId_ReturnsOkResult()
+        public async Task GetPhotosByUserId_ReturnsCorrectPhotos()
         {
             // Arrange
             var userId = new ObjectId("6151dc195dc68dab2c80c66e");
@@ -146,127 +143,90 @@ namespace Unit_Test
                     UploadDate = DateTime.Now,
                     Tag = "Nature",
                     UserId = userId
-                },
-                new Photo
-                {
-                    Id = new ObjectId("6151dc195dc68dab2c80c66f"),
-                    Url = "https://example.com/photo2.jpg",
-                    Title = "Photo 2",
-                    Description = "This is photo 2",
-                    CameraName = "Nikon D850",
-                    Status = "Active",
-                    UploadDate = DateTime.Now,
-                    Tag = "Travel",
-                    UserId = userId
                 }
             };
-            _photoServiceMock.Setup(x => x.GetPhotosByUserIdAsync(userId)).ReturnsAsync(photos);
+            //_photoServiceMock.Setup(x => x.GetPhotosByUserIdAsync(userId)).ReturnsAsync(photos);
+
 
             // Act
-            var result = await _photoController.FindByUserId(userId);
+            //var result = await _photoController.FindByUserId(userId) as OkObjectResult;
+
+            var result = await _client.GetFromJsonAsync<List<PhotoDto>>($"/api/PhotoControllerMongoDb/{userId}");
+            var actualPhotos = result as IEnumerable<Photo>;
+
+            // Assert
+            Assert.Equal(1, actualPhotos.Count());
+            Assert.Contains(actualPhotos, p => p.Title == "Photo 1");
+
+        }
+
+
+        //////////////////////////////////////////////////////////////////////////////////////////////////////
+        //UpdatePhoto
+
+        /*
+        [Fact]
+        public async Task UpdatePhoto_ReturnsOkResult()
+        {
+            // Arrange
+            var photoId = "6151dc195dc68dab2c80c66d";
+            var photoDto = new PhotoDto
+            {
+                Url = "https://example.com/photo1.jpg",
+                Title = "Updated Photo",
+                Description = "This is the updated photo",
+                CameraName = "Canon EOS 5D Mark IV",
+                Status = "Active",
+                UploadDate = DateTime.Now,
+                Tag = "Nature"
+            };
+            var updatedPhoto = new Photo
+            {
+                Id = new ObjectId(photoId),
+                Url = photoDto.Url,
+                Title = photoDto.Title,
+                Description = photoDto.Description,
+                CameraName = photoDto.CameraName,
+                Status = photoDto.Status,
+                UploadDate = photoDto.UploadDate,
+                Tag = photoDto.Tag,
+                UserId = new ObjectId(photoId)
+            };
+            _photoServiceMock.Setup(x => x.UpdatePhotoAsync(updatedPhoto)).Returns(Task.CompletedTask);
+
+            // Act
+            var result = await _photoController.UpdatePhoto(photoId, photoDto);
 
             // Assert
             Assert.IsType<OkObjectResult>(result);
         }
-
-        /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-        /*
-
-            [Fact]
-            public async Task GetPhotoByIdAsync_WithValidId_ReturnsPhotoDto()
-            {
-                // Arrange
-                var validId = ObjectId.GenerateNewId();
-
-                var photo = new Photo//Kiedy wchodzimy Object Photo wyskakuje błędy
-                {
-                    Id = validId,//!
-                    Url = "https://example.com/photo.jpg",
-                    Title = "Sample Photo",
-                    Description = "This is a sample photo",
-                    CameraName = "Nikon",
-                    Status = "Active",
-                    UploadDate = DateTime.UtcNow,
-                    Tag = "Sample",
-                    UserId = ObjectId.GenerateNewId()//!
-                };
-
-                var mockService = new Mock<PhotoServiceMongoDb>();
-                mockService.Setup(s => s.GetPhotoByIdAsync(validId)).ReturnsAsync(photo);
-
-                var controller = new PhotoControllerMongoDb(mockService.Object);//PhotoController
-
-                // Act
-                var result = await controller.FindById(validId);
-
-                // Assert
-                var okResult = Assert.IsType<OkObjectResult>(result);
-                var photoDto = Assert.IsType<PhotoDto>(okResult.Value);
-
-                Assert.Equal(photo.Id.ToString(), photoDto.Id);
-                Assert.Equal(photo.Url, photoDto.Url);
-                Assert.Equal(photo.Title, photoDto.Title);
-                Assert.Equal(photo.Description, photoDto.Description);
-                Assert.Equal(photo.CameraName, photoDto.CameraName);
-                Assert.Equal(photo.Status, photoDto.Status);
-                Assert.Equal(photo.UploadDate, photoDto.UploadDate);
-                Assert.Equal(photo.Tag, photoDto.Tag);
-                Assert.Equal(photo.UserId.ToString(), photoDto.UserId);
-            }
-            
-
         */
 
-        //dont work
-        /*
+
+        //////////////////////////////////////////////////////////////////////////////////////////////////////
+        //DeletePhoto
+
         [Fact]
-        public async Task GetPhotoByIdAsync_WithValidId_ReturnsPhoto()
+        public async Task DeletePhoto_ReturnsInternalServerErrorResult_ExceptionThrown()
         {
             // Arrange
-            var validId = 1;
+            var photoId = "6151dc195dc68dab2c80c66d";
+            var objectId = new ObjectId(photoId);
+            //_photoServiceMock.Setup(x => x.DeletePhotoAsync(objectId)).ThrowsAsync(new Exception("An error occurred."));
 
             // Act
-            var result = await _client.GetAsync($"/api/PhotoControllerMongoDb/{validId}");
+
+            //Act
+            var result = await _client.DeleteFromJsonAsync<PhotoDto>($"/api/PhotoControllerMongoDb{photoId}");      //.GetFromJsonAsync<List<PhotoDto>>("/api/PhotoControllerMongoDb");
+
+            //var result = await _photoController.DeletePhotoAsync(photoId);
 
             // Assert
-            Assert.Equal(HttpStatusCode.OK, result.StatusCode);
+            Assert.IsType<ObjectResult>(result);
+            //Assert.Equal(500, (result as ObjectResult).StatusCode);//!
 
-            var content = await result.Content.ReadAsStringAsync();
-            var photo = JsonConvert.DeserializeObject<PhotoDto>(content);
-
-            Assert.NotNull(photo);
-            Assert.Equal(validId.ToString(), photo.Id);
+            //Assert.Equal(6, result.Count);
         }
-        */
-
-
-
-
-
-
-        //?
-        /*
-        [Fact]
-        public async void PostTest()
-        {
-
-            HttpRequestMessage request = new HttpRequestMessage()
-            {
-                RequestUri = new Uri("https://localhost:7077/api/books"),
-                Method = HttpMethod.Post,
-                Headers =
-                    {
-                        {HttpRequestHeader.Authorization.ToString(), "Bearer 3789..."},
-                        {HttpRequestHeader.ContentType.ToString(), "application/json"}
-                    },
-                Content = JsonContent.Create(body),
-            };
-
-            var response = await _client.SendAsync(request);
-
-        }
-        */
 
     }
 }

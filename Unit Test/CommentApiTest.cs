@@ -59,5 +59,45 @@ namespace Unit_Test
             Assert.Contains("application/json", result.Content.Headers.GetValues("Content-Type").First());
         }
 
+
+        //////////////////////////////////////////////////////////////////////////////////////////////////////
+        //FindById
+
+        //FindById - X
+        [Fact]
+        public async Task Get_Object_Returns_SuccessForFindById()
+        {
+            // Arrange
+            //int objectId = 1; // Замініть на ідентифікатор існуючого об'єкта
+
+            // Arrange
+            var photoid = ObjectId.GenerateNewId();
+
+            var comment = new Comment//Kiedy wchodzimy Object Photo wyskakuje błędy
+            {
+                Id = photoid,//!
+                PhotoId = ObjectId.GenerateNewId(),//!
+                UserId = ObjectId.GenerateNewId(),//!
+                CommentText = "Testing",
+                Date = DateTime.Now
+            };
+
+            // Act
+            var result = await _client.GetAsync($"/api/PhotoControllerMongoDb/{photoid}");
+
+            // Assert
+            Assert.Equal(HttpStatusCode.OK, result.StatusCode);
+            var okResult = Assert.IsType<OkObjectResult>(result);
+            var commentDto = Assert.IsType<CommentDto>(okResult.Value);
+
+            Assert.Equal(comment.Id.ToString(), commentDto.Id);
+            Assert.Equal(comment.UserId.ToString(), commentDto.UserId);
+            Assert.Equal(comment.PhotoId.ToString(), commentDto.PhotoId);
+            Assert.Equal(comment.CommentText, commentDto.CommentText);
+            Assert.Equal(comment.Date, commentDto.Date);
+            //Assert.Contains("application/json", result.Content.Headers.GetValues("Content-Type").First());
+
+        }
+
     }
 }

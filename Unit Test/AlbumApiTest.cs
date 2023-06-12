@@ -58,5 +58,84 @@ namespace Unit_Test
             Assert.Equal(HttpStatusCode.OK, result.StatusCode);
             Assert.Contains("application/json", result.Content.Headers.GetValues("Content-Type").First());
         }
+
+        //////////////////////////////////////////////////////////////////////////////////////////////////////
+        //FindById
+
+        //FindById - X
+        [Fact]
+        public async Task Get_Object_Returns_SuccessForFindById()
+        {
+            // Arrange
+            //int objectId = 1; // Замініть на ідентифікатор існуючого об'єкта
+
+            // Arrange
+            var id = ObjectId.GenerateNewId();
+
+            var album = new Album//Kiedy wchodzimy Object Photo wyskakuje błędy
+            {
+                Id = id,//!
+                Title = "Testing",
+                Status = "public",
+                UserId = ObjectId.GenerateNewId(),//!
+                Description = "Testing"
+            };
+
+            // Act
+            var result = await _client.GetAsync($"/api/AlbumControllerMongoDb/{id}");
+
+            // Assert
+            Assert.Equal(HttpStatusCode.OK, result.StatusCode);
+            var okResult = Assert.IsType<OkObjectResult>(result);
+            var albumDto = Assert.IsType<AlbumDto>(okResult.Value);
+
+            Assert.Equal(album.Id.ToString(), albumDto.Id);
+            Assert.Equal(album.Title, albumDto.Title);
+            Assert.Equal(album.Status, albumDto.Status);
+            Assert.Equal(album.Description, albumDto.Description);
+            Assert.Equal(album.UserId.ToString(), albumDto.UserId);
+            //Assert.Contains("application/json", result.Content.Headers.GetValues("Content-Type").First());
+
+        }
+
+
+        //////////////////////////////////////////////////////////////////////////////////////////////////////
+        //UpdatePhoto
+
+        /*
+        [Fact]
+        public async Task UpdateAlbum_ReturnsOkResult()
+        {
+            // Arrange
+            var id = "6151dc195dc68dab2c80c66d";
+             var album = new Album//Kiedy wchodzimy Object Photo wyskakuje błędy
+            {
+                Id = id,//!
+                Title = "Testing",
+                Status = "public",
+                UserId = ObjectId.GenerateNewId(),//!
+                Description = "Testing"
+            };
+            var updatedPhoto = new Photo
+            {
+                Id = new ObjectId(photoId),
+
+                Id = new ObjectId(id),
+                Title = albumDto.title,
+                Status = albumDto.status,
+                UserId = new ObjectId(id),
+                Description = albumDto.description
+
+                
+            };
+            _photoServiceMock.Setup(x => x.UpdatePhotoAsync(updatedPhoto)).Returns(Task.CompletedTask);
+
+            // Act
+            var result = await _photoController.UpdatePhoto(photoId, photoDto);
+
+            // Assert
+            Assert.IsType<OkObjectResult>(result);
+        }
+        */
     }
 }
