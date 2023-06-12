@@ -48,7 +48,7 @@ namespace ApplicationLayer.AppServices
 
                 if (photo == null)
                 {
-                    throw new Exception($"Photo with user id {userId} not found.");
+                    throw new Exception($"Photos with user id {userId} not found.");
                 }
 
                 return photo;
@@ -56,6 +56,25 @@ namespace ApplicationLayer.AppServices
             catch (Exception ex)
             {
                 Console.WriteLine($"An error occurred while retrieving photo with user id {userId}: {ex.Message}");
+                throw;
+            }
+        }
+        public async Task<IEnumerable<Photo>> GetPhotosByAlbumIdAsync(ObjectId albumId)
+        {
+            try
+            {
+                var photo = await _photoRepository.GetPhotosByAlbumIdAsync(albumId);
+
+                if (photo == null)
+                {
+                    throw new Exception($"Photos with user id {albumId} not found.");
+                }
+
+                return photo;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"An error occurred while retrieving photos with album id {albumId}: {ex.Message}");
                 throw;
             }
         }

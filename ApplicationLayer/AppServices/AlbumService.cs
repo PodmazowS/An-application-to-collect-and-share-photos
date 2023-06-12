@@ -44,6 +44,26 @@ namespace ApplicationLayer.AppServices
             }
         }
 
+        public async Task<IEnumerable<Album>> GetAlbumsByUserIdAsync(ObjectId userId)
+        {
+            try
+            {
+                var album = await _albumRepository.GetAlbumsByUserIdAsync(userId);
+
+                if (album == null)
+                {
+                    throw new Exception($"Albums with user id {userId} not found.");
+                }
+
+                return album;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"An error occurred while retrieving albums with user id {userId}: {ex.Message}");
+                throw;
+            }
+        }
+
         public async Task CreateAlbumAsync(Album album)
         {
             try

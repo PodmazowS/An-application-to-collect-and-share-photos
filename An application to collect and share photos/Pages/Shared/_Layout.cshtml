@@ -24,7 +24,7 @@
         </a>
         @if (!User.Identity.IsAuthenticated)
         {
-        <a asp-page="Users/Login">
+            <a asp-page="Users/Login" data-page-url="/Users/Login">
                 <div class="menuitem">
                 <div class="material-icons-outlined">login</div><div class="iconsnames">Log in</div>
             </div>
@@ -32,7 +32,7 @@
         }
         @if (User.Identity.IsAuthenticated)
         {
-            <a asp-page="Users/ProfilePage">
+            <a asp-page="Users/ProfilePage" data-page-url="/Users/ProfilePage">
             <div class="menuitem">
                 <div class="material-icons-outlined">person</div><div class="iconsnames">Profile</div>
             </div>
@@ -43,13 +43,13 @@
                     <div class="iconsnames dropbtn" onclick="myFunction()">Add</div>
                     <div id="myDropdown" class="dropdown-content">
                         <ul>
-                            <li><a asp-area="" asp-page="/Photos/AddPhoto">Photo</a></li>
-                            <li><a asp-area="" asp-page="/Albums/AddAlbum">Album</a></li>
+                            <li><a asp-page="/Photos/AddPhoto" data-page-url="/Photos/AddPhoto">Photo</a></li>
+                            <li><a asp-page="/Albums/AddAlbum" data-page-url="/Albums/AddAlbum">Album</a></li>
                         </ul>
                     </div>
                 </div>
             </div>
-            <a asp-page="Users/Logout">
+            <a asp-page="Users/Logout" data-page-url="/Users/Logout">
             <div class="menuitem">
                 <div class="material-icons-outlined">logout</div><div class="iconsnames">Logout</div>
             </div>
@@ -57,7 +57,7 @@
         }
         @if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
         {
-            <a asp-page="Users/AssignRole">
+            <a asp-page="Users/AssignRole" data-page-url="/Users/AssignRole">
             <div class="menuitem">
                 <div class="material-icons-outlined">settings</div><div class="iconsnames">Roles</div>
             </div>
@@ -69,11 +69,18 @@
             @RenderBody()
         </main>
 
-        <footer>
+        <footer><form method="get" asp-page="Index">
             <div class="nav">
-                <input type="text" placeholder="Search post or user...">
+                    <select name="filter" class="photo-filter">
+                        <option value="Title">Title</option>
+                        <option value="Description">Description</option>
+                        <option value="CameraName">Camera Name</option>
+                        <option value="Tag">Tag</option>
+                    </select>
+                <input name="searchQuery" type="text" placeholder="Search post or user...">
                 <button type="submit">Go</button>
-            </div>
+            </div></form>
+
             <p class="about">
                 &copy; 2023 <a asp-area="" asp-page="/Privacy">Privacy</a>
             <p>
@@ -102,6 +109,20 @@
                 }
             }
         }
+
+    </script>
+    <script>
+        // Отримати всі посилання з атрибутом data-page-url
+        var links = document.querySelectorAll('a[data-page-url]');
+
+        // Перебір посилань і навігація на відповідні URL-адреси
+        links.forEach(function (link) {
+            link.addEventListener('click', function (e) {
+                e.preventDefault();
+                var url = link.getAttribute('data-page-url');
+                window.location.href = url;
+            });
+        });
 
     </script>
     @await RenderSectionAsync("Scripts", required: false)

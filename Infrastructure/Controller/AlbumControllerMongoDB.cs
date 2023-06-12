@@ -38,6 +38,36 @@ namespace Infrastructure.Controller
             return Ok(result);
         }
         
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateAlbumAsync(string id, [FromBody] AlbumDto albumDto)
+        {
+            try
+            {
+                if (!ObjectId.TryParse(id, out ObjectId objectId))
+                {
+                    return BadRequest("Invalid album ID format.");
+                }
+
+                var album = new Album
+                {
+                    Id = objectId,
+                    Title = albumDto.Title,
+                    Status = albumDto.Status,
+                    UserId = objectId,
+                    Description = albumDto.Description
+                };
+
+                await _service.UpdateAlbumAsync(objectId, album);
+
+                return Ok($"Album with ID {id} has been updated.");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"An error occurred while updating the album: {ex.Message}");
+                return StatusCode(500, "An error occurred while updating the album.");
+            }
+        }
+        
         
 
     }

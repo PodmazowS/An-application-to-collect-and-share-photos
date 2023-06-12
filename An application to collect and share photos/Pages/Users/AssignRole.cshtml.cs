@@ -58,8 +58,13 @@ namespace An_application_to_collect_and_share_photos.Pages.Users
             {
                 return Page();
             }
-
+            
             await _userManager.AddToRoleAsync(user, role.Name);
+            if (role.Name != "Admin")
+            {
+                await _userManager.RemoveFromRoleAsync(user, "Admin");
+                
+            }
 
             TempData["Success"] = "Successfully assigned role!";
 

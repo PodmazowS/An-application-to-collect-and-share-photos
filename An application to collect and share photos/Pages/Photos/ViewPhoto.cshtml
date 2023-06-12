@@ -1,13 +1,23 @@
 ﻿@page
 @model An_application_to_collect_and_share_photos.Pages.Photos.ViewPhotoModel
 
-<head>
-    <title>Photo</title>
     <link rel="stylesheet" type="text/css" href="~/css/viewphoto.css">
-</head>
 
     <div class="container">
+        @if (@Model.photo.Status == "Protected")
+        {
+           <img src="@Model.photo.Url" alt="@Model.photo.Title" oncontextmenu="return false;"class="photo">
+        }
+        else
+        {
         <img src="@Model.photo.Url" alt="@Model.photo.Title" class="photo">
+        }        
+        @if(User.Identity.IsAuthenticated && @Model.currentUser.Id == @Model.photo.UserId || User.IsInRole("Admin"))
+        {
+            <div class="edit">
+                <a asp-page="/Photos/EditPhoto" asp-route-photoId="@Model.photo.Id">Edit</a>
+            </div>
+        }
         <div class="info">
             <h2>@Model.photo.Title</h2>
             <p>Author: @Model.user</p>
@@ -20,13 +30,21 @@
 
         @if (User.Identity.IsAuthenticated)
         {
+            @if (!Model.isCurrentUserOwner)
+            {
             <div class="likes">
                 <form method="post" asp-page-handler="Like" asp-route-photoId="@Model.photo.Id">
                     <button type="submit" class="like-button">Like <b>@Model.likecount</b></button>
                 </form>
             </div>
-
-            <div class="comments">
+            }
+            else
+            {
+            <div class="likes">
+				<button class="like-button">Like <b>@Model.likecount</b></button>
+            </div>
+            }
+        <div class="comments">
                 <h3>Comments</h3>
                 @if (Model.comments != null)
                 {

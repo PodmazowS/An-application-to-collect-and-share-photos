@@ -1,0 +1,90 @@
+﻿@page
+@model An_application_to_collect_and_share_photos.Pages.Photos.EditPhotoModel
+
+@{
+    ViewData["Title"] = "Edit a photo";
+}
+
+<head>
+    <link href="~/css/addentity.css" rel="stylesheet" />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+
+        $(document).ready(function () {
+            $("#deleteBtn").click(function (e) {
+                e.preventDefault();
+                if (confirm("Are you sure you want to delete this photo?")) {
+                    $.ajax({
+                        url: $("#deleteForm").attr("action"),
+                        type: "POST",
+                        data: $("#deleteForm").serialize(),
+                        success: function () {
+                            // Перенаправлення після успішної відправки форми
+                            window.location.href = "/Photos/DeleteSuccess";
+                        },
+                        error: function (xhr, status, error) {
+                            // Обробка помилки відправки форми
+                            console.error("Помилка під час відправлення форми:", error);
+                        }
+                    });
+                }
+            });
+        });
+    </script>
+</head>
+
+<div class="row text">
+    <div class="col-md-8 offset-2">
+        <p>
+            <h1>Edit a Photo</h1>
+        </p>
+        <div class="row">
+            <div class="col-md-8 offset-2">
+                <form method="post" asp-page="/EditPhoto">
+                    <div class="form-group text-center">
+                        <img id="PhotoPreview" class="rounded-2" />
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Title" class="control-label"></label>
+                        <input asp-for="Title" class="form-control" />
+                        <span asp-validation-for="Title" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Description" class="control-label"></label>
+                        <input asp-for="Description" class="form-control" />
+                        <span asp-validation-for="Description" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="CameraName" class="control-label"></label>
+                        <input asp-for="CameraName" class="form-control" />
+                        <span asp-validation-for="CameraName" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Tag" class="control-label"></label>
+                        <input asp-for="Tag" class="form-control" />
+                        <span asp-validation-for="Tag" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Status">Status</label><br />
+                        <label><input type="radio" asp-for="Status" value="Public" /> Public</label>
+                        <label><input type="radio" asp-for="Status" value="Protected" /> Protected</label>
+                        <label><input type="radio" asp-for="Status" value="Private" /> Private</label>
+                        <span asp-validation-for="Status" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <input type="submit" value="Update" name="submit" class="btn-action" />
+                        <a class="btn btn-outline-secondary" asp-page="/Index">Back to Main Page</a>
+                    </div>
+                </form>
+                <div class="row">
+                    <div class="col-md-8 offset-2">
+                        <form method="post" id="deleteForm" asp-page-handler="DeletePhoto">
+                            <input type="submit" value="Delete" id="deleteBtn" name="submit" class="btn btn-delete" />
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

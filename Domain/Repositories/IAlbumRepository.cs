@@ -26,5 +26,8 @@ namespace Domain.Repositories
 
         //Delete
         Task Delete(ObjectId id);
+        //GetPhotos using UserId parameter
+        Task<IEnumerable<Album>> GetAlbumsByUserIdAsync(ObjectId userId);
+
     }
 }

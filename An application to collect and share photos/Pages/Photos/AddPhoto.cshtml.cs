@@ -76,7 +76,7 @@ namespace An_application_to_collect_and_share_photos.Pages
 
 
             // Перенаправте користувача на іншу сторінку або повідомте про успішне додавання фото
-            return RedirectToPage("/Index");
+            return RedirectToPage("/Photos/AddSuccess");
         }
     }
 }

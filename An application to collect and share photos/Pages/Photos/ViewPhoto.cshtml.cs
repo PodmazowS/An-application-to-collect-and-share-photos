@@ -29,16 +29,23 @@ namespace An_application_to_collect_and_share_photos.Pages.Photos
         public int likecount;
         public string commentText;
         public IEnumerable<Comment> comments;
+
+        public bool isCurrentUserOwner;
         public async Task<IActionResult> OnGet(ObjectId photoId, string userId)
         {
             currentUser = await _userManager.GetUserAsync(User);
-
+            
             user = await _userManager.FindByIdAsync(userId);
 
             if (user == null)
             {
                 return NotFound();
             }
+            if (User.Identity.IsAuthenticated)
+            {
+                isCurrentUserOwner = (currentUser.Id == user.Id);
+            }
+
             photo = await _photoService.GetPhotoByIdAsync(photoId);
             if (photo == null)
             {

@@ -106,8 +106,228 @@ p {
 .dropdown:hover .dropdown-content {
     display: block;
 }
+.load-more-buttton {
+    padding: 10px 20px;
+    background-color: #f0f0f0;
+    border: none;
+    cursor: pointer;
+    font-size: 14px;
+    margin-left: 40%;
+    margin-right: 40%;
+}
+.edit {
+    padding: 10px 20px;
+    background-color: #f0f0f0;
+    border: none;
+    cursor: pointer;
+    font-size: 18px;
+    background-color: #f0f0f0;
+    text-align: center;
+}
+
+    .edit:hover {
+        background-color: dodgerblue;
+    }
+.btn-delete {
+    margin-top:10px;
+    width: 83px;
+    background-color: red;
+    color: white;
+    cursor: pointer;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 0;
+}
+.btn-action {
+    background-color: dodgerblue;
+    color: white;
+    cursor: pointer;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 0;
+}
+.albums {
+    display: inline-block;
+    padding: 20px 15px 30px 15px;
+    background-color: #f0f0f0;
+    border: none;
+    cursor: pointer;
+    font-size: 30px;
+    max-height: 10%;
+    max-width: 20%;
+    margin-right: 5%;
+    margin-top: 6%;
+    text-align: center;
+}
+
+.albums a:hover{
+    color:dodgerblue;
+}
+.like-button {
+    padding: 10px 20px;
+    background-color: #f0f0f0;
+    border: none;
+    cursor: pointer;
+    font-size: 14px;
+}
+.album {
+    border: 1px solid gray;
+    display: flex;
+    margin: 5px;
+    align-items: center;
+    justify-content: center;
+    background-color: #f0f0f0;
+}
+.album:hover{
+    background-color:dodgerblue;
+}
+.album a{
+    padding:10px;
+}
+.photo div {
+    margin: 5px 5px 2px 5px;
+    width: 22vw;
+    height: 22vw;
+    object-fit: cover;
+}
+.pick-options {
+    display: flex;
+    flex-wrap: wrap;
+    padding-left: 20px;
+    width: 75vw;
+    max-height: 100px;
+    justify-content: center;
+    align-items: center;
+}
+
+.back-to-user,
+.add-photo-button,
+.edit-album,
+.delete-photos-button,
+.delete-photo-button {
+    font-size: 18px;
+    border: 1px solid gray;
+    margin: 10px;
+    width: 35%;
+    height: 50%;
+    text-align: center;
+    vertical-align: middle;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
 
 
+.back-to-user,
+.edit-album,
+.add-photo-button,
+.delete-photos-button {
+    background-color: #f0f0f0;
+}
+.return-to-user:hover,
+.back-to-user:hover {
+   background-color: gray;
+   color: white;
+}
+.add-photo-button:hover{
+    cursor:pointer;
+    background-color:white;
+}
+.edit-album:hover{
+    background-color:dodgerblue;
+    color:white;
+}
+.delete-photos-button:hover,
+.delete-photo-button:hover
+{
+    cursor:pointer;
+    background-color: red;
+    color: white;
+}
+
+.photoitem {
+    display: flex;
+    height: 50px;
+    flex-wrap: wrap;
+    margin: 10px;
+    width: 75vw;
+    border: 1px solid gray;
+    justify-content: flex-start;
+    height: 15vw;
+}
+.photoitem-border {
+    padding: 5px;
+    border: 1px solid gray;
+    display: flex;
+    margin: 5px;
+    max-width: 10%;
+    justify-content: center;
+    align-items: center;
+}
+.photoitem-photo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+    .photoitem-photo img {
+        flex-grow: 1;
+        max-width: 100%;
+        max-height: 100%;
+        object-fit: contain;
+    }
+.photoitem-title {
+    font-size:30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-left:30%
+}
+.photoitem-checkbox {
+    display: flex;
+    justify-content: flex-end; /* Змінено на flex-end */
+    align-items: center;
+    flex-grow: 1;
+    margin-right:1%;
+}
+    .photoitem-checkbox input[type="checkbox"] {
+        transform: scale(1.5);
+    }
+.return-to-user{
+    padding:7px;
+}
+.photo-filter {
+    font-family: 'Chivo Mono',monospace;
+    float:left;
+    border: 1px solid #f0f0f0;
+    padding: 10px;
+    margin-top:10px;
+    width: 95%;
+    text-align: center;
+    margin-bottom:0px;
+}
+
+.successful {
+    border: 1px solid black;
+    background-color: green;
+    text-align: center;
+    color:white;
+    margin:5%;
+}
+.redirect-to-index{
+    display:inline-block;
+    border:1px solid black;
+    margin:5%;
+}
+.redirect-to-index-border{
+    border: 1px solid gray;
+    background-color:#f0f0f0;
+    margin:5%;
+    text-align:center;
+}
+.redirect-to-index:hover {
+    background-color: gray;
+    color: white;
+}
 
 @media (max-width:1200px) {
     .iconsnames {

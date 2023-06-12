@@ -1,0 +1,43 @@
+﻿@page
+@model An_application_to_collect_and_share_photos.Pages.Albums.ViewAlbumModel
+@{
+}
+<head>
+    <link href="~/css/profile.css" rel="stylesheet" />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+</head>
+<div class="profilepage">
+    <div class="header">
+        <div class="pick-options">
+
+                <a asp-page="/Albums/ViewAlbums" asp-page-handler="UserAlbums" asp-route-userId="@Model.UserProfile.Id.ToString()" class="back-to-user">Return to @Model.UserProfile.UserName</a>
+            @if (User.IsInRole("Admin") || User.Identity.IsAuthenticated && Model.currentUser.Id == Model.UserProfile.Id)
+            {
+                <a asp-page="/Albums/AddPhotosToAlbum" asp-route-userId="@Model.UserProfile.Id.ToString()" asp-route-albumId="@Model.AlbumId" class="add-photo-button">Add Photos</a>
+                <a asp-page="/Albums/EditAlbum" asp-route-albumId="@Model.AlbumId" asp-route-userId="@Model.UserProfile.Id.ToString()" class="edit-album">Edit Album</a>
+                <a asp-page="/Albums/DeletePhotosFromAlbum" asp-route-userId="@Model.UserProfile.Id.ToString()" asp-route-albumId="@Model.AlbumId" class="delete-photos-button">Delete Photos</a>
+            }
+        </div>
+    </div>
+    <div class="profilesheet">
+        @foreach (var photo in Model.UserPhotos)
+        {
+            if (photo.Status == "Public" || photo.Status == "Protected" || User.IsInRole("Admin"))
+            {
+                <div class="photo">
+                    <a asp-page="/Photos/ViewPhoto" asp-route-photoId="@photo.Id" asp-route-userId="@Model.UserProfile.Id.ToString()">
+                        @if (photo.Status == "Protected")
+                        {
+                            <img src="@photo.Url" alt="@photo.Title" oncontextmenu="return false;">
+                        }
+                        else
+                        {   
+                            <img src="@photo.Url" alt="@photo.Title">
+                        }
+                    </a>
+                </div>
+            }
+        }
+    </div>
+</div>

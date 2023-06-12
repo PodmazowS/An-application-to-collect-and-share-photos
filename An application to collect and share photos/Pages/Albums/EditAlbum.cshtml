@@ -1,0 +1,68 @@
+﻿@page
+@model An_application_to_collect_and_share_photos.Pages.Albums.EditAlbumModel
+@{
+}
+@{
+    ViewData["Title"] = "Edit Album";
+}
+
+
+<head>
+    <link href="~/css/addentity.css" rel="stylesheet" />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+
+        $(document).ready(function () {
+            $("#deleteBtn").click(function (e) {
+                e.preventDefault();
+                if (confirm("Are you sure you want to delete this album?")) {
+                    $.ajax({
+                        url: $("#deleteForm").attr("action"),
+                        type: "POST",
+                        data: $("#deleteForm").serialize(),
+                        success: function () {
+                            // Перенаправлення після успішної відправки форми
+                            window.location.href = "/Albums/DeleteSuccess";
+                        },
+                        error: function (xhr, status, error) {
+                            // Обробка помилки відправки форми
+                            console.error("Помилка під час відправлення форми:", error);
+                        }
+                    });
+                }
+            });
+        });
+    </script>
+</head>
+<h1>Edit Album</h1>
+
+<form method="post">
+    <div class="form-group">
+        <label asp-for="Title">Title</label>
+        <input class="form-control" asp-for="Title" />
+        <span asp-validation-for="Title" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Description">Description</label>
+        <textarea class="form-control" asp-for="Description"></textarea>
+        <span asp-validation-for="Description" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Status">Status</label><br />
+        <label><input type="radio" asp-for="Status" value="Public" /> Public</label>
+        <label><input type="radio" asp-for="Status" value="Private" /> Private</label>
+        <span asp-validation-for="Status" class="text-danger"></span>
+    </div>
+
+    <input asp-route-userId="@Model.UserProfile.Id.ToString()" type="submit" value="Update" name="submit" class="btn-action" />
+    <a asp-page="/Albums/ViewAlbums" asp-page-handler="UserAlbums" asp-route-userId="@Model.UserProfile.Id.ToString()" class="return-to-user">Return to @Model.UserProfile.UserName</a>
+</form>
+<div class="row">
+    <div class="col-md-8 offset-2">
+        <form method="post" id="deleteForm" asp-page-handler="DeleteAlbum">
+            <input type="submit" value="Delete" id="deleteBtn" name="submit" class="btn-delete" />
+        </form>
+    </div>
+</div>

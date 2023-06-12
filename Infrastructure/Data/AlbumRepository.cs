@@ -53,5 +53,12 @@ namespace Infrastructure.Data
 
             return album;
         }
+
+        public async Task<IEnumerable<Album>> GetAlbumsByUserIdAsync(ObjectId userId)
+        {
+            var filter = Builders<Album>.Filter.Eq(a => a.UserId, userId);
+            var albums = await _albumCollection.Find(filter).ToListAsync();
+            return albums;
+        }
     }
 }

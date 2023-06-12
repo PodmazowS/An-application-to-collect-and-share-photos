@@ -52,14 +52,34 @@ namespace Infrastructure.MongoDB
                 ).FirstOrDefaultAsync();
         }
 
+        public Task<IEnumerable<Album>> GetAlbumsByUserIdAsync(ObjectId userId)
+        {
+            throw new NotImplementedException();
+        }
+
         public Task CreateAlbumAsync(Album album)
         {
             throw new NotImplementedException();
         }
 
-        public Task UpdateAlbumAsync(ObjectId id, Album album)
+        public async Task UpdateAlbumAsync(ObjectId id, Album album)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var filter = Builders<Album>.Filter.Eq(a => a.Id, id);
+                var update = Builders<Album>.Update
+                    .Set(a => a.Title, album.Title)
+                    .Set(a => a.Status, album.Status)
+                    .Set(a => a.UserId, album.UserId)
+                    .Set(a => a.Description, album.Description);
+
+                await _albums.UpdateOneAsync(filter, update);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"An error occurred while updating the album with ID {id}: {ex.Message}");
+                throw;
+            }
         }
 
         public Task DeleteAlbumAsync(ObjectId id)

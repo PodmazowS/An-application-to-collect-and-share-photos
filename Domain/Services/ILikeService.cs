@@ -13,4 +13,5 @@ public interface ILikeService
     public Task UnlikePhotoAsync(ObjectId userId, ObjectId photoId);
 
     public Task<int> GetLikeCountForPhotoAsync(ObjectId photoId);
+    Task<List<Like>> GetLikesByPhotoIdAsync(ObjectId photoId);
 }
