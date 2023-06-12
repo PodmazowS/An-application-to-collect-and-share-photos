@@ -7,14 +7,14 @@ using MongoDB.Bson;
 
 namespace An_application_to_collect_and_share_photos.Pages.Albums
 {
-    public class AddPhotostoAlbumModel : PageModel
+    public class DeletePhotosFromAlbumModel : PageModel
     {
         private readonly IPhotoService _photoService;
         private readonly UserManager<User> _userManager;
 
         private string _userId;
         private ObjectId _albumId;
-        public AddPhotostoAlbumModel(IPhotoService photoService, UserManager<User> userManager)
+        public DeletePhotosFromAlbumModel(IPhotoService photoService, UserManager<User> userManager)
         {
             _userManager = userManager;
             _photoService = photoService;
@@ -23,7 +23,6 @@ namespace An_application_to_collect_and_share_photos.Pages.Albums
         public IEnumerable<Photo> UserPhotos { get; set; }
         public User UserProfile { get; set; }
         public static ObjectId AlbumId { get; set; }
-        public IEnumerable<Photo> AddedPhotos { get; set; }
 
         public async Task<IActionResult> OnGet(string userId, ObjectId albumId)
         {
@@ -39,15 +38,12 @@ namespace An_application_to_collect_and_share_photos.Pages.Albums
 
             AlbumId = albumId;
 
-            var reversedPhotos = await _photoService.GetPhotosByUserIdAsync(UserProfile.Id);
+            UserPhotos = await _photoService.GetPhotosByAlbumIdAsync(AlbumId);
 
-            UserPhotos = reversedPhotos.Reverse();
-
-            AddedPhotos = await _photoService.GetPhotosByAlbumIdAsync(albumId);
 
             return Page();
         }
-        public async Task<IActionResult> OnPostAddPhotos(string userId)
+        public async Task<IActionResult> OnPostDeletePhotos(string userId)
         {
             UserProfile = await _userManager.FindByIdAsync(userId);
 
@@ -64,14 +60,14 @@ namespace An_application_to_collect_and_share_photos.Pages.Albums
                 var photo = await _photoService.GetPhotoByIdAsync(selectedItemId);
                 if (photo != null)
                 {
-                    photo.AlbumId = AlbumId;
+                    photo.AlbumId = null;
                     // Зберегти зміни до фотографії у базі даних
                     await _photoService.UpdatePhotoAsync(photo);
                 }
             }
 
             // Перенаправити користувача на іншу сторінку після обробки форми
-            return RedirectToPage("/Albums/AddPhotosToAlbumSuccess");
+            return RedirectToPage("/Albums/DeletePhotosFromAlbumSuccess");
 
         }
 

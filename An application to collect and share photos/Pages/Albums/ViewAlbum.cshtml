@@ -16,9 +16,7 @@
             {
                 <a asp-page="/Albums/AddPhotosToAlbum" asp-route-userId="@Model.UserProfile.Id.ToString()" asp-route-albumId="@Model.AlbumId" class="add-photo-button">Add Photos</a>
                 <a asp-page="/Albums/EditAlbum" asp-route-albumId="@Model.AlbumId" asp-route-userId="@Model.UserProfile.Id.ToString()" class="edit-album">Edit Album</a>
-                <form method="post" asp-page="Albums/ViewAlbum" class="delete-album-form" >
-                <input asp-page-handler="DeleteAlbum" asp-route-albumId="@Model.AlbumId" asp-route-userId="@Model.UserProfile.Id.ToString()" type="submit" value="Delete Album" name="submit" class="delete-album">
-                </form>
+                <a asp-page="/Albums/DeletePhotosFromAlbum" asp-route-userId="@Model.UserProfile.Id.ToString()" asp-route-albumId="@Model.AlbumId" class="delete-photos-button">Delete Photos</a>
             }
         </div>
     </div>

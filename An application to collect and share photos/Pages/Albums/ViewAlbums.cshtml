@@ -28,6 +28,7 @@
                 <div class="album">
                     <a asp-page="/Albums/ViewAlbum" asp-page-handler="UserPage" asp-route-albumId="@album.Id" asp-route-userId="@Model.UserProfile.Id.ToString()">
                         <h2>@album.Title</h2>
+                        <h4>@album.Description</h4>
                     </a>
                 </div>
             }

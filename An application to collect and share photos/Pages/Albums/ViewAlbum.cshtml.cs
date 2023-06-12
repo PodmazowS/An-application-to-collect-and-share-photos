@@ -42,30 +42,7 @@ namespace An_application_to_collect_and_share_photos.Pages.Albums
             return Page();
         }
 
-        public async Task<IActionResult> OnPostDeleteAlbum(ObjectId albumId, string userId)
-        {
-            UserProfile = await _userManager.FindByIdAsync(userId);
 
-            if (UserProfile == null)
-            {
-                return NotFound();
-            }
-            currentUser = await _userManager.GetUserAsync(User);
-
-            await _albumService.DeleteAlbumAsync(albumId);
-
-
-            var photosToUpdate = await _photoService.GetPhotosByAlbumIdAsync(albumId);
-
-            foreach (var photo in photosToUpdate)
-            {
-                photo.AlbumId = null;
-                // Зберегти зміни до фотографії у базі даних
-                await _photoService.UpdatePhotoAsync(photo);
-            }
-
-            return RedirectToPage("/Albums/DeleteSuccess");
-        }
 
     }
 }

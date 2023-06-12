@@ -17,19 +17,21 @@
         
         @foreach (var photo in Model.UserPhotos)
         {
-            <div class="photoitem">
-                <div class="photoitem-border">
-                <div class="photoitem-photo">
-                    <a asp-page="/Photos/ViewPhoto" asp-route-photoId="@photo.Id" asp-route-userId="@Model.UserProfile.Id.ToString()">
-                        @if (photo.Status == "Protected")
-                        {
-                            <img src="@photo.Url" alt="@photo.Title" oncontextmenu="return false;">
-                        }
-                        else
-                        {
-                            <img src="@photo.Url" alt="@photo.Title">
-                        }
-                    </a>
+                @if (!Model.AddedPhotos.Any(p => p.Id == photo.Id))
+                {
+                    <div class="photoitem">
+                        <div class="photoitem-border">
+                            <div class="photoitem-photo">
+                                <a asp-page="/Photos/ViewPhoto" asp-route-photoId="@photo.Id" asp-route-userId="@Model.UserProfile.Id.ToString()">
+                                    @if (photo.Status == "Protected")
+                                    {
+                                        <img src="@photo.Url" alt="@photo.Title" oncontextmenu="return false;">
+                                    }
+                                    else
+                                    {
+                                        <img src="@photo.Url" alt="@photo.Title">
+                                    }
+                                </a>
                 </div>
                 </div>
                 <div class="photoitem-title">
@@ -39,6 +41,7 @@
                      <input type="checkbox" name="selectedPhotos" value="@photo.Id">
                 </div>
             </div>
+            }
         }
         
     </div>

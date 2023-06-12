@@ -1,3 +1,4 @@
+using ApplicationLayer.AppServices;
 using Domain.Models;
 using Domain.Services;
 using Microsoft.AspNetCore.Authorization;
@@ -16,8 +17,10 @@ namespace An_application_to_collect_and_share_photos.Pages.Albums
     {
         private readonly IAlbumService _albumService;
         private readonly UserManager<User> _userManager;
-        public EditAlbumModel(IAlbumService albumService, UserManager<User> userManager)
+        private readonly IPhotoService _photoService;
+        public EditAlbumModel(IAlbumService albumService, UserManager<User> userManager, IPhotoService photoService)
         {
+            _photoService = photoService;
             _albumService = albumService;
             _userManager = userManager;
         }
@@ -73,6 +76,24 @@ namespace An_application_to_collect_and_share_photos.Pages.Albums
             await _albumService.UpdateAlbumAsync(existingAlbum.Id,album);
 
             return Page();
+        }
+
+        public async Task<IActionResult> OnPostDeleteAlbum()
+        {
+
+            await _albumService.DeleteAlbumAsync(AlbumId);
+
+
+            var photosToUpdate = await _photoService.GetPhotosByAlbumIdAsync(AlbumId);
+
+            foreach (var photo in photosToUpdate)
+            {
+                photo.AlbumId = null;
+                // Зберегти зміни до фотографії у базі даних
+                await _photoService.UpdatePhotoAsync(photo);
+            }
+
+            return RedirectToPage("/Albums/DeleteSuccess");
         }
     }
 }

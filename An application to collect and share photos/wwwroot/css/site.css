@@ -129,6 +129,8 @@ p {
         background-color: dodgerblue;
     }
 .btn-delete {
+    margin-top:10px;
+    width: 83px;
     background-color: red;
     color: white;
     cursor: pointer;
@@ -200,8 +202,10 @@ p {
 
 .back-to-user,
 .add-photo-button,
-.edit-album{
-    font-size:18px;
+.edit-album,
+.delete-photos-button,
+.delete-photo-button {
+    font-size: 18px;
     border: 1px solid gray;
     margin: 10px;
     width: 35%;
@@ -212,29 +216,12 @@ p {
     justify-content: center;
     align-items: center;
 }
-.delete-album-form {
-    
-    border: 1px solid gray;
-    margin: 10px;
-    width: 35%;
-    height: 50%;
-    text-align: center;
-    display: flex;
-    flex-direction: column;
-}
-.delete-album {
-    font-size: 18px;
-    font-family: 'Chivo Mono', monospace;
-    cursor: pointer;
-    flex-grow: 1;
-    border: none;
-    object-fit: contain;
-}
+
 
 .back-to-user,
 .edit-album,
 .add-photo-button,
-.delete-album {
+.delete-photos-button {
     background-color: #f0f0f0;
 }
 .return-to-user:hover,
@@ -243,25 +230,30 @@ p {
    color: white;
 }
 .add-photo-button:hover{
+    cursor:pointer;
     background-color:white;
 }
 .edit-album:hover{
     background-color:dodgerblue;
     color:white;
 }
-.delete-album:hover{
-    background-color:red;
-    color:white;
+.delete-photos-button:hover,
+.delete-photo-button:hover
+{
+    cursor:pointer;
+    background-color: red;
+    color: white;
 }
-.photoitem{
-    display:flex;
-    height:50px;
-    flex-wrap:wrap;
-    margin:10px;
-    width:75vw;
-    border:1px solid gray;
-    justify-content:flex-start;
-    height:15vw;
+
+.photoitem {
+    display: flex;
+    height: 50px;
+    flex-wrap: wrap;
+    margin: 10px;
+    width: 75vw;
+    border: 1px solid gray;
+    justify-content: flex-start;
+    height: 15vw;
 }
 .photoitem-border {
     padding: 5px;
