@@ -1,8 +1,5 @@
 # An-application-to-collect-and-share-photos
 ## Opis instalacji
-
-### Biblioteki do pobrania:
-
 ### Konfiguracja bazy danych
 
 ## Uruchomienie aplikacji
