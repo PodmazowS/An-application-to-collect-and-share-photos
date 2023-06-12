@@ -10,10 +10,10 @@ Po pobraniu niezbędnych bibliotek oraz poprawnej konfiguracji bazy danych, apli
 wybrać opcję *https* w menu *Debug*. Po uruchomieniu aplikacji, aplikacja powinna być dostępna
 pod adresem <host_url/>
 ###Dane do logowania:
-####Uprawnienia administratorskie
+###Uprawnienia administratorskie
 - login: admin@email.com
 - hasło: Admin123!
-####Uprawnienia użytkownika
+###Uprawnienia użytkownika
 - login: user3@email.com
 - hasło: Test123!
 ## Opis funkcjonalności
