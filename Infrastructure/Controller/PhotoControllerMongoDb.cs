@@ -52,6 +52,8 @@ namespace Infrastructure.Controller
     
             return Ok(photos);
         }
+
+
         
         [HttpDelete("{photoId}")]
         public async Task<IActionResult> DeletePhotoAsync(string photoId)
