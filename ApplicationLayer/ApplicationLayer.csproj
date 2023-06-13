@@ -8,7 +8,6 @@
 
   <ItemGroup>
     <Folder Include="AppServices\" />
-    <Folder Include="UseCases\" />
   </ItemGroup>
 
   <ItemGroup>

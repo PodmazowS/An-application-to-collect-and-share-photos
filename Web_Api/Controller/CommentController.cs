@@ -7,11 +7,11 @@ namespace Infrastructure.Controller
     [ApiController]
     [Route("api/[Controller]")]
 
-    public class CommentController : ControllerBase
+    public class CommentsController : ControllerBase
     {
         private readonly CommentServiceMongoDb _service;
 
-        public CommentController(CommentServiceMongoDb service)
+        public CommentsController(CommentServiceMongoDb service)
         {
             _service = service;
         }
