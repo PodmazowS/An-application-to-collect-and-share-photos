@@ -9,11 +9,11 @@ namespace Infrastructure.Controller
 {
     [ApiController]
     [Route("api/[Controller]")]
-    public class PhotoControllerMongoDb : ControllerBase
+    public class PhotosController : ControllerBase
     {
         private readonly PhotoServiceMongoDb _service;
         
-        public PhotoControllerMongoDb(PhotoServiceMongoDb service)
+        public PhotosController(PhotoServiceMongoDb service)
         {
             _service = service;
         }

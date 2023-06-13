@@ -4,8 +4,6 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Hosting;
 using Domain.Repositories;
-using Infrastructure.Data;
-using Infrastructure.MongoDB;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
 using MongoDB.Driver;
@@ -15,6 +13,8 @@ using Microsoft.AspNetCore.Identity;
 using System.Security.Cryptography.X509Certificates;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Infrastructure.MongoDB;
+using Infrastructure.Data;
 
 namespace An_application_to_collect_and_share_photos
 {
