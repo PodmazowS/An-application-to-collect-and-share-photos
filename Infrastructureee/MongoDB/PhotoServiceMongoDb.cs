@@ -19,9 +19,17 @@ namespace Infrastructure.MongoDB
             _photos = database.GetCollection<Photo>(settings.Value.PhotoCollection);
         }
 
-        public Task CreatePhotoAsync(Photo photo)
+        public async Task CreatePhotoAsync(Photo photo)
         {
-            throw new NotImplementedException();
+            try
+            {
+                await _photos.InsertOneAsync(photo);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"An error occurred while creating the photo: {ex.Message}");
+                throw;
+            }
         }
 
         public async Task UpdatePhotoAsync(Photo photo)

@@ -56,9 +56,17 @@ namespace Infrastructure.MongoDB
             throw new NotImplementedException();
         }
 
-        public Task CreateAlbumAsync(Album album)
+        public async Task CreateAlbumAsync(Album album)
         {
-            throw new NotImplementedException();
+            try
+            {
+                await _albums.InsertOneAsync(album);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"An error occurred while creating the photo: {ex.Message}");
+                throw;
+            }
         }
 
         public async Task UpdateAlbumAsync(ObjectId id, Album album)

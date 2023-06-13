@@ -112,6 +112,39 @@ namespace Infrastructure.Controller
                 return StatusCode(500, "An error occurred while updating the photo.");
             }
         }
-        
+        [HttpPost]
+        public async Task<IActionResult> CreatePhoto([FromBody] PhotoDto photoDto)
+        {
+            try
+            {
+                // Map the properties from the PhotoDto to the Photo model
+                var photo = new Photo
+                {
+                    
+                    Id = ObjectId.GenerateNewId(),
+                    AlbumId = photoDto.AlbumId,
+                    Url = photoDto.Url,
+                    Title = photoDto.Title,
+                    Description = photoDto.Description,
+                    CameraName = photoDto.CameraName,
+                    Status = photoDto.Status,
+                    UploadDate = DateTime.UtcNow,
+                    Tag = photoDto.Tag,
+                    UserId = ObjectId.GenerateNewId()
+                };
+
+                // Call the service method to create the photo
+                await _service.CreatePhotoAsync(photo);
+
+                // Return a success response
+                return Ok("Photo created successfully.");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"An error occurred while creating the photo: {ex.Message}");
+                return StatusCode(500, "An error occurred while creating the photo.");
+            }
+        }
+
     }
 }

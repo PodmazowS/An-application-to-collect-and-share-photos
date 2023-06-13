@@ -67,8 +67,37 @@ namespace Infrastructure.Controller
                 return StatusCode(500, "An error occurred while updating the album.");
             }
         }
-        
-        
+        [HttpPost]
+        public async Task<IActionResult> CreateAlbun([FromBody] AlbumDto albumDto)
+        {
+            try
+            {
+                // Map the properties from the PhotoDto to the Photo model
+                var album = new Album
+                {
+                    Id = ObjectId.GenerateNewId(),
+                    Title = albumDto.Title,
+                    Status = albumDto.Status,
+                    Description= albumDto.Description,
+                    UserId = ObjectId.GenerateNewId(),
+                  
+                    
+                };
+
+                // Call the service method to create the photo
+                await _service.CreateAlbumAsync(album);
+
+                // Return a success response
+                return Ok("Album created successfully.");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"An error occurred while creating the album: {ex.Message}");
+                return StatusCode(500, "An error occurred while creating the album.");
+            }
+        }
+
+
 
     }
     
