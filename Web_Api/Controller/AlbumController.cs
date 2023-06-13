@@ -8,11 +8,11 @@ namespace Infrastructure.Controller
 {
     [ApiController]
     [Route("api/[Controller]")]
-    public class AlbumControllerMongoDb : ControllerBase
+    public class AlbumsController : ControllerBase
     {
         private readonly AlbumServiceMongoDb _service;
 
-        public AlbumControllerMongoDb(AlbumServiceMongoDb service)
+        public AlbumsController(AlbumServiceMongoDb service)
         {
             _service = service;
         }

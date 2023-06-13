@@ -17,6 +17,7 @@ using Infrastructure.MongoDB;
 using ApplicationLayer.DTO;
 using System.Net.Http;
 using Microsoft.AspNetCore.Http;
+using Web_Api;
 
 namespace Unit_Test
 {

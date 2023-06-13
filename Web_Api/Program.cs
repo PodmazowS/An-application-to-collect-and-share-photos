@@ -1,23 +1,14 @@
-using Domain.Models;
-using Domain.Repositories;
-using Domain.Services;
-using Infrastructure.Data;
+
 using Infrastructure.MongoDB;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
-using MongoDB.Bson;
 using MongoDB.Driver;
 
-namespace Infrastructure
+namespace Web_Api
 {
     public class Program
     {
-
         public static void Main(string[] args)
         {
-
-
             var builder = WebApplication.CreateBuilder(args);
 
             // Add services to the container.
@@ -26,8 +17,8 @@ namespace Infrastructure
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
+            
 
-            //
             builder.Services.Configure<MongoDBSettings>(builder.Configuration.GetSection("MongoDB"));
             builder.Services.AddSingleton<IMongoClient, MongoClient>(sp =>
             {
@@ -45,17 +36,11 @@ namespace Infrastructure
 
             builder.Services.AddControllers();
             builder.Services.AddScoped<MongoDBContext>();
-//<<<<<<< HEAD
-           // builder.Services.AddSingleton<PhotoServiceMongoDb>();
-//=======
+
+
             builder.Services.AddSingleton<AlbumServiceMongoDb>();
             builder.Services.AddSingleton<PhotoServiceMongoDb>();
             builder.Services.AddSingleton<CommentServiceMongoDb>();
-            
-            
-            
-//>>>>>>> API
-
 
             var app = builder.Build();
 
@@ -65,16 +50,15 @@ namespace Infrastructure
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
-            app.MapControllers();   
+
             app.UseHttpsRedirection();
-            app.UseRouting();
+            app.MapControllers();
+
             app.UseAuthorization();
 
+            
 
             app.Run();
         }
     }
-}
-public partial class Program
-{
 }

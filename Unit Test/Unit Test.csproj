@@ -26,9 +26,9 @@
     </PackageReference>
   </ItemGroup>
 
-	<ItemGroup>
-		<ProjectReference Include="..\Infrastructure\Infrastructure.csproj" />
-	</ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Web_Api\WebApi.csproj" />
+  </ItemGroup>
 
 	<ItemGroup>
 		<Content Update="xunit.runner.json">
